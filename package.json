@@ -1,14 +1,16 @@
 {
   "name": "art-curator",
-  "version": "1.2.0-beta.0",
+  "version": "0.0.0-sematically-released",
   "description": "Art collection manager",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha src/index.test.js -w"
+    "commit": "git-cz",
+    "test": "mocha src/index.test.js -w",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timofeysie/curator.git"
+    "url": "https://github.com/timofeysie/curator.git"
   },
   "keywords": [
     "art"
@@ -24,6 +26,12 @@
   },
   "devDependencies": {
     "chai": "3.3.0",
-    "mocha": "2.3.3"
-  }
+    "commitizen": "1.0.5",
+    "cz-conventional-changelog": "1.1.4",
+    "mocha": "2.3.3",
+    "semantic-release": "^4.3.5"
+  },
+  "czConfig": {
+  "path": "node_modules/cz-conventional-changelog"
+}
 }
