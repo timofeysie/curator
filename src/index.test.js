@@ -22,6 +22,13 @@ describe('curator', function() {
 			var artist = { Artist: 'Abie Loy Kemarre'}
 			expect(curator.searchArtists('abie') === artist);
 		});
+		it('Shuld return an array of random names if passed an arg', function() {
+			var randomArtists = curator.getArtist(3);
+			expect(randomArtists).to.have.length(3);
+			randomArtists.forEach(function(item) {
+				expect(curator.artists).to.include(randomArtists);
+			})
+		});
 	});
 	describe('getBio', function () {
 		it('should return the bio of an artist', function() {
