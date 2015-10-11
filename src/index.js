@@ -4,14 +4,11 @@ module.exports = {
   	getArtists: artists,
   	getArtist: uniqueRandowmArray(artists),
   	searchArtists: function(term) {
-	  	console.log('term',term);
 	  	for (var i = 0; i < artists.length; i++) {
 	        var obj = artists[i];
 	        for(var key in obj) {
 	            var attrValue = obj[key];
-	            //console.log(key+' '+attrValue);
 	            if (attrValue.toLowerCase().indexOf(term.toLowerCase()) !== -1) {
-	            	console.log(key+' '+attrValue);
 	            	return obj;
 	            }
 	        }
@@ -19,7 +16,6 @@ module.exports = {
     	return null;
   	},
   	getBio: function(term) {
-  		console.log('term',term);
   		var obj = this.searchArtists(term);
   		if (obj) {
   			var fileName = obj.Artist.replace(/ /g,"_");
@@ -28,7 +24,7 @@ module.exports = {
 				return artist;
 			} catch (error)
 			{
-				console.log('probelm: '+error);
+				console.log('problem: '+error);
 			}
   		}
     return null;
