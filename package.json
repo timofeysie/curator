@@ -1,5 +1,5 @@
 {
-  "name": "curator",
+  "name": "art-curator",
   "version": "1.0.0",
   "description": "Art collection manager",
   "main": "src/index.js",
