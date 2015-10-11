@@ -1,6 +1,6 @@
 {
   "name": "art-curator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Art collection manager",
   "main": "src/index.js",
   "scripts": {
