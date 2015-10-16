@@ -22,10 +22,10 @@ describe('curator', function() {
 			var artist = { Artist: 'Abie Loy Kemarre'}
 			expect(curator.searchArtists('abie') === artist);
 		});
-		it('Should return null if the artist is not found', function() {
+		it('should return null if the artist is not found', function() {
 			expect(curator.searchArtists('not there') === null);
 		});
-		it('Should return an array of random names if passed an arg', function() {
+		it('should return an array of random names if passed an arg', function() {
 			var randomArtists = curator.getArtist(3);
 			expect(randomArtists).to.have.length(3);
 			randomArtists.forEach(function(item) {
