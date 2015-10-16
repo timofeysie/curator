@@ -5,7 +5,8 @@ module.exports = {
   	getArtists: artists,
   	getArtist: getArtist,
   	searchArtists: searchArtists,
-  	getBio: getBio
+  	getBio: getBio,
+  	artistsReport: artistsReport
 };
 function getArtist(number) {
 	if (number === undefined) {
@@ -17,7 +18,7 @@ function getArtist(number) {
 		}
 	return randomArtists;
 	}
-}
+};
 function searchArtists(term) {
   	for (var i = 0; i < artists.length; i++) {
         var obj = artists[i];
@@ -29,23 +30,42 @@ function searchArtists(term) {
         }
     }
 	return null;
- }
+ };
  function getBio (term) {
-	var obj = this.searchArtists(term);
+	var obj = searchArtists(term);
 	if (obj) {
 		var fileName = obj.Artist.replace(/ /g,"_");
 		try {
 			var artist = require('./data/'+fileName+'.json');
 			return artist;
 		} catch (error) {
-			console.log('problem: '+error);
+			//console.log('problem: '+error);
 		}
 	}
 	return null;
-}
+};
+function artistsReport() {
+	var total = 0;
+	var bios = 0;
+  	for (var i = 0; i < artists.length; i++) {
+        var obj = artists[i];
+        for(var key in obj) {
+            var attrValue = obj[key];
+            var bio = getBio(attrValue);
+            if (bio) {
+            	bios++;
+            }
+            total++;
+        }
+    }
+    console.log('bios: '+bios);
+    console.log('total:'+total);
+	return bios;
+ };
 // repl commands to test:
 // var lib = require('./src/index.js');
 // lib.getArtists
 // lib.getArtist()
 // lib.searchArtists('abie');
 // lib.getBio('albert');
+// lib.artistsReport()

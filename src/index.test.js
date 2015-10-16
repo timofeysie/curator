@@ -22,6 +22,9 @@ describe('curator', function() {
 			var artist = { Artist: 'Abie Loy Kemarre'}
 			expect(curator.searchArtists('abie') === artist);
 		});
+		it('Should return null if the artist is not found', function() {
+			expect(curator.searchArtists('not there') === null);
+		});
 		it('Should return an array of random names if passed an arg', function() {
 			var randomArtists = curator.getArtist(3);
 			expect(randomArtists).to.have.length(3);
@@ -32,8 +35,13 @@ describe('curator', function() {
 	});
 	describe('getBio', function () {
 		it('should return the bio of an artist', function() {
-			var artist = { }
 			expect(curator.getBio('albert') === null);
+		});
+	});
+	describe('artistsReport', function () {
+		it('should return the number of artists with bios', function() {
+			var artist = { }
+			expect(curator.artistsReport() === 27);
 		});
 	});
 });
