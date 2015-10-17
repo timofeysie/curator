@@ -1,0 +1,145 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'publish', 'tags' ]
+2 info using npm@2.9.0
+3 info using node@v0.10.35
+4 verbose publish [ 'tags' ]
+5 silly cache add args [ 'tags', null ]
+6 verbose cache add spec tags
+7 silly cache add parsed spec { raw: 'tags',
+7 silly cache add   scope: null,
+7 silly cache add   name: 'tags',
+7 silly cache add   rawSpec: '',
+7 silly cache add   spec: '*',
+7 silly cache add   type: 'range' }
+8 silly addNamed tags@*
+9 verbose addNamed "*" is a valid semver range for tags
+10 silly addNameRange { name: 'tags', range: '*', hasData: false }
+11 silly mapToRegistry name tags
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry uri https://registry.npmjs.org/tags
+15 verbose addNameRange registry:https://registry.npmjs.org/tags not in flight; fetching
+16 verbose request uri https://registry.npmjs.org/tags
+17 verbose request no auth needed
+18 info attempt registry request try #1 at 07:33:46
+19 verbose request using bearer token for auth
+20 verbose request id dc4900f93b875418
+21 http request GET https://registry.npmjs.org/tags
+22 http 200 https://registry.npmjs.org/tags
+23 silly get cb [ 200,
+23 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+23 silly get     etag: '"AYTL4O4YFN8BDS974NOF9DSNG"',
+23 silly get     'content-type': 'application/json',
+23 silly get     'cache-control': 'max-age=60',
+23 silly get     'content-length': '2117',
+23 silly get     'accept-ranges': 'bytes',
+23 silly get     date: 'Sat, 17 Oct 2015 20:33:46 GMT',
+23 silly get     via: '1.1 varnish',
+23 silly get     connection: 'keep-alive',
+23 silly get     'x-served-by': 'cache-syd1620-SYD',
+23 silly get     'x-cache': 'MISS',
+23 silly get     'x-cache-hits': '0',
+23 silly get     'x-timer': 'S1445114026.234126,VS0,VE186',
+23 silly get     vary: 'Accept' } ]
+24 verbose get saving tags to /Users/tim/.npm/registry.npmjs.org/tags/.cache.json
+25 silly addNameRange number 2 { name: 'tags', range: '*', hasData: true }
+26 silly addNameRange versions [ 'tags', [ '0.1.0' ] ]
+27 silly addNamed tags@0.1.0
+28 verbose addNamed "0.1.0" is a plain semver version for tags
+29 silly mapToRegistry name tags
+30 silly mapToRegistry using default registry
+31 silly mapToRegistry registry https://registry.npmjs.org/
+32 silly mapToRegistry uri https://registry.npmjs.org/tags
+33 verbose addRemoteTarball https://registry.npmjs.org/tags/-/tags-0.1.0.tgz not in flight; adding
+34 verbose addRemoteTarball [ 'https://registry.npmjs.org/tags/-/tags-0.1.0.tgz',
+34 verbose addRemoteTarball   '758d3c4c340422eddd8bb46c0cae227afb288d16' ]
+35 info retry fetch attempt 1 at 07:33:46
+36 info attempt registry request try #1 at 07:33:46
+37 http fetch GET https://registry.npmjs.org/tags/-/tags-0.1.0.tgz
+38 verbose request using bearer token for auth
+39 http fetch 200 https://registry.npmjs.org/tags/-/tags-0.1.0.tgz
+40 silly fetchAndShaCheck shasum 758d3c4c340422eddd8bb46c0cae227afb288d16
+41 verbose addTmpTarball /var/folders/jn/xzs5tlvd2wb3dccpknvkxczh0000gn/T/npm-40407-09b18d1e/registry.npmjs.org/tags/-/tags-0.1.0.tgz not in flight; adding
+42 verbose addTmpTarball already have metadata; skipping unpack for tags@0.1.0
+43 silly cache afterAdd tags@0.1.0
+44 verbose afterAdd /Users/tim/.npm/tags/0.1.0/package/package.json not in flight; writing
+45 verbose afterAdd /Users/tim/.npm/tags/0.1.0/package/package.json written
+46 silly publish { author:
+46 silly publish    { name: 'Marcus Westin',
+46 silly publish      email: 'narcvs@gmail.com',
+46 silly publish      url: 'http://marcuswest.in' },
+46 silly publish   name: 'tags',
+46 silly publish   description: 'A small, fast & standalone convenience library for building dom.',
+46 silly publish   version: '0.1.0',
+46 silly publish   repository:
+46 silly publish    { type: 'git',
+46 silly publish      url: 'git://github.com/marcuswestin/tags.js.git' },
+46 silly publish   main: 'tags.js',
+46 silly publish   engines: { node: '>0.4.x' },
+46 silly publish   dependencies: {},
+46 silly publish   devDependencies: {},
+46 silly publish   optionalDependencies: {},
+46 silly publish   _npmUser: { name: 'marcuswestin', email: 'narcvs@gmail.com' },
+46 silly publish   _id: 'tags@0.1.0',
+46 silly publish   _engineSupported: true,
+46 silly publish   _npmVersion: '1.1.0-2',
+46 silly publish   _nodeVersion: 'v0.6.8',
+46 silly publish   _defaultsLoaded: true,
+46 silly publish   dist:
+46 silly publish    { shasum: '758d3c4c340422eddd8bb46c0cae227afb288d16',
+46 silly publish      tarball: 'http://registry.npmjs.org/tags/-/tags-0.1.0.tgz' },
+46 silly publish   maintainers: [ { name: 'marcuswestin', email: 'narcvs@gmail.com' } ],
+46 silly publish   directories: {},
+46 silly publish   _shasum: '758d3c4c340422eddd8bb46c0cae227afb288d16',
+46 silly publish   _resolved: 'https://registry.npmjs.org/tags/-/tags-0.1.0.tgz',
+46 silly publish   _from: 'tags@*' }
+47 info prepublish tags@0.1.0
+48 verbose getPublishConfig undefined
+49 silly mapToRegistry name tags
+50 silly mapToRegistry using default registry
+51 silly mapToRegistry registry https://registry.npmjs.org/
+52 silly mapToRegistry uri https://registry.npmjs.org/tags
+53 verbose publish registryBase https://registry.npmjs.org/
+54 silly publish uploading /Users/tim/.npm/tags/0.1.0/package.tgz
+55 verbose request uri https://registry.npmjs.org/tags
+56 verbose request sending authorization for write operation
+57 info attempt registry request try #1 at 07:33:47
+58 verbose request using bearer token for auth
+59 http request PUT https://registry.npmjs.org/tags
+60 http 403 https://registry.npmjs.org/tags
+61 verbose headers { 'content-type': 'application/json',
+61 verbose headers   'cache-control': 'max-age=60',
+61 verbose headers   'content-length': '96',
+61 verbose headers   'accept-ranges': 'bytes',
+61 verbose headers   date: 'Sat, 17 Oct 2015 20:33:48 GMT',
+61 verbose headers   via: '1.1 varnish',
+61 verbose headers   connection: 'keep-alive',
+61 verbose headers   'x-served-by': 'cache-syd1624-SYD',
+61 verbose headers   'x-cache': 'MISS',
+61 verbose headers   'x-cache-hits': '0',
+61 verbose headers   'x-timer': 'S1445114027.550856,VS0,VE727' }
+62 verbose request invalidating /Users/tim/.npm/registry.npmjs.org/tags on PUT
+63 error publish Failed PUT 403
+64 verbose stack Error: You do not have permission to publish 'tags'. Are you logged in as the correct user? : tags
+64 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:247:14)
+64 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:170:14)
+64 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:368:22)
+64 verbose stack     at Request.emit (events.js:98:17)
+64 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1219:14)
+64 verbose stack     at Request.emit (events.js:117:20)
+64 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1167:12)
+64 verbose stack     at IncomingMessage.emit (events.js:117:20)
+64 verbose stack     at _stream_readable.js:944:16
+64 verbose stack     at process._tickCallback (node.js:442:13)
+65 verbose statusCode 403
+66 verbose pkgid tags
+67 verbose cwd /Users/tim/repos/curator
+68 error Darwin 14.0.0
+69 error argv "node" "/usr/local/bin/npm" "publish" "tags"
+70 error node v0.10.35
+71 error npm  v2.9.0
+72 error code E403
+73 error You do not have permission to publish 'tags'. Are you logged in as the correct user? : tags
+74 error If you need help, you may report this error at:
+74 error     <https://github.com/npm/npm/issues>
+75 verbose exit [ 1, true ]
