@@ -28,14 +28,13 @@ describe('curator', function() {
 		it('should return null if the artist is not found', function() {
 			expect(curator.searchArtists('not there') === null);
 		});
-		// it('should return an array of random names if passed an arg', function() {
-
-		// 	var random = curator.getArtist(3);
-		// 	expect(random).to.have.length(3);
-		// 	random.forEach(function(item) {
-		// 		expect(curator.getArtists).to.include(item);
-		// 	})
-		// });
+		it('should return an array of random names if passed an arg', function() {
+			var random = curator.getArtist(3);
+			expect(random).to.have.length(3);
+			random.forEach(function(item) {
+				expect(curator.getArtists).to.include(item);
+			})
+		});
 	});
 	describe('getBio', function () {
 		it('should return the bio of an artist', function() {

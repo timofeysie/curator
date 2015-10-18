@@ -16,9 +16,9 @@ function getArtist(number) {
 	if (number === undefined) {
 		return getRandomArtist();
 	} else {
-		randomArtists = [];
+		var randomArtists = [];
 		for (var i = 0; i < number; i++) {
-		randomArtists.push(getArtist());
+		  randomArtists.push(getRandomArtist());
 		}
 	return randomArtists;
 	}
@@ -66,10 +66,13 @@ function artistsReport() {
     console.log('total:'+total);
 	return bios;
  };
-// repl commands to test:
+// repl commands to test.
+// We are using ES6 so you have to have Babel installed globally.
+// usage: babel-node
 // var lib = require('./src/index.js');
 // lib.getArtists
 // lib.getArtist()
+// lib.getArtist(5)
 // lib.searchArtists('abie');
 // lib.getBio('albert');
 // lib.artistsReport()
