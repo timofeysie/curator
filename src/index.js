@@ -1,6 +1,10 @@
-var artists = require('./data/artists.json');
-var uniqueRandomArray = require('unique-random-array');
+import artists from './data/artists.json';
+import uniqueRandomArray from 'unique-random-array';
+// ES5 versions
+// var artists = require('./data/artists.json');
+// var uniqueRandomArray = require('unique-random-array');
 var getRandomArtist = uniqueRandomArray(artists);
+
 module.exports = {
   	getArtists: artists,
   	getArtist: getArtist,

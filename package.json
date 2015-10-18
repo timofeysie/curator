@@ -2,12 +2,15 @@
   "name": "art-curator",
   "version": "0.0.0-sematically-released",
   "description": "Art collection manager",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "prebuild": "rm -rf dist && mkdir dist && rm -rf data && mkdir data",
+    "build": "babel src/index.js -o dist/index.js",
+    "postbuild": "cp -rf src/data dist/data",
     "commit": "git-cz",
     "report-coverage": "cat ./coverage/lcove.info | codecov ",
-    "test": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js -w",
-    "test:single": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js",
+    "test": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js -w --compilers js:babel/register",
+    "test:single": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js --compilers js:babel/register",
     "codecov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec && cat ./coverage/lcov.info | ./node_modules/.bin/codecov",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -28,6 +31,7 @@
     "unique-random-array": "1.0.0"
   },
   "devDependencies": {
+    "babel": "5.8.23",
     "chai": "3.3.0",
     "codecov.io": "0.1.6",
     "commitizen": "1.0.5",
