@@ -1,0 +1,26 @@
+{
+  "name": "art-curator",
+  "description": "Art collection manager",
+  "main": "dist/index.js",
+  "authors": [
+    "Timothy Curchod <timofeyc@hotmail.com> (https://github.com/timofeysie)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "art"
+  ],
+  "homepage": "https://github.com/timofeysie/curator",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.0"
+  }
+}
