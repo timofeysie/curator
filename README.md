@@ -1,12 +1,11 @@
 # curator
 
-![github](https://github.com/timofeysie/curator/logos/github-logo.svg)
-![sheilds](https://github.com/timofeysie/curator/logos/sheilds-logo.svg)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+
 
 A micro-library of functions to manage artists and thier paintings.
 
-The GitHub repo is called curator, but the npm repo is named art-curator since curator already exists as an npm module.
+The GitHub repo is called curator, but the npm repo is named art-curator since curator already exists as an npm module.  This has created problems with Travis.
 We do unit testing with Mocha and Chai.  Conventional commits are done with commitizen.  The releases are automated with semantic-release.  Tests are automatically run before commits with ghooks.  Code coverage is recorded with Istanbul.  Badges are added to the README with Codecov and shields.io.  ES6 support is added with Babel.  Travis is used for continuous deployment.
 
 The prebuild, build and postbuild scripts in the package.json compile the src directory to the dist directory while copying any data files needed.  ES6 code is run in implied strict mode and is transpiled down to ES5.
@@ -34,12 +33,12 @@ $ npm install art-curator@1.3.1-beta.3
 
 # Usage
 ```
-var lib = require('./src/index.js');
-lib.getArtists
-lib.getArtist()
-lib.searchArtists('abie');
-lib.getBio('albert');
-lib.artistsReport()
+var curator = require('./node_modules/art-curator/dist/index.js');
+curator.getArtists
+curator.getArtist()
+curator.searchArtists('abie');
+curator.getBio('albert');
+curator.artistsReport()
 ```
 
 # Workflow
@@ -47,7 +46,7 @@ lib.artistsReport()
 Make sure that you have Node.js installed.
 This package uses commitizen to create it's sematic releases.  First add your changes then run the commit:
 ```
-$ git add
+$ git add .
 $ npm run commit
 ```
 Choose the type of changes that you did. Ex: chore
