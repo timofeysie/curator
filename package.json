@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/timofeysie/curator#readme",
   "dependencies": {
-    "unique-random-array": "1.0.0"
+    "unique-random-array": "1.0.0",
+    "wikidata-sdk": "^5.12.0"
   },
   "devDependencies": {
     "babel": "5.8.23",
