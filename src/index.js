@@ -31,7 +31,6 @@ function createWikiDataUrl() {
             ?cognitive_bias wdt:P31 wd:Q1127759.
         }
 		LIMIT 1000`
-	console.log('sparql');
 	const url = wdk.sparqlQuery(sparql);
 	return url;
 }
@@ -50,7 +49,12 @@ function createWikiMediaUrl(sectionNum) {
  * multiple rows of name and definition pairs.
  */
 function parseWikiMediaResult(res) {
-	const parse = res.json();
+    let parseResult;
+    try {
+        parseResult = res.json();
+    } catch (err) {
+        err.log('TypeError: res.json is not a function');
+    }
     const content = parse['parse']['text']['*'];
     let one = this.createElementFromHTML(content);
     let title = this.parseTitle(one);
@@ -170,8 +174,8 @@ function artistsReport() {
             total++;
         }
     }
-    console.log('bios: '+bios);
-    console.log('total:'+total);
+    // console.log('bios: '+bios);
+    // console.log('total:'+total);
 	return bios;
  };
 // repl commands to test.

@@ -239,3 +239,23 @@ npm ERR! A complete log of this run can be found in:
 npm ERR!     /Users/tim/.npm/_logs/2018-07-03T13_16_29_107Z-debug.log
 ```
 Any suggestions?  Start from scratch?
+
+
+## Testing Wiki functions
+
+Without writing any tests, we have the following statement:
+```
+Statements   : 57.66% ( 64/111 ), 1 ignored
+Branches     : 86.36% ( 19/22 ), 4 ignored
+Functions    : 46.15% ( 6/13 )
+Lines        : 53.47% ( 54/101 )
+```
+
+After adding a few tests for the everything except the two pasrse functions, our coverage has gotten a bit better:
+```
+Statements   : 72.97% ( 81/111 ), 1 ignored
+Branches     : 86.36% ( 19/22 ), 4 ignored
+Functions    : 69.23% ( 9/13 )
+Lines        : 70.3% ( 71/101 )
+```
+

@@ -12,7 +12,6 @@ describe('curator', function() {
 		it('should return a string', function() {
 			expect(dataUrl).to.be.a('string');
 		});
-		console.log('lll', dataUrl);
 		it('should contain a sparql string', function() {
 			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fcognitive_bias%20%3Fcognitive_biasLabel%20%3Fcognitive_biasDescription%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fcognitive_bias%20wdt%3AP31%20wd%3AQ1127759.%0A%20%20%20%20%20%20%20%20%7D%0A%09%09LIMIT%201000');
 		});
@@ -21,37 +20,51 @@ describe('curator', function() {
 		});
 	});
 
-	// createWikiMediaUrl: createWikiMediaUrl,
-	// describe('getArtists', function () {
-	// 	it('should return a list of artists', function() {
-	// 		expect(curator.getArtists).to.satisfy(isArrayOfObjects);
+	/* --- createWikiMediaUrl --- */
+	describe('createWikiMediaUrl', function () {
+		const dataUrl = curator.createWikiMediaUrl();
+		it('should return a string', function() {
+			expect(dataUrl).to.be.a('string');
+		});
+		it('should contain a WikiMedia API call string', function() {
+			expect(dataUrl).to.equal('http://en.wikipedia.org/w/api.php?action=parse&section=undefined&prop=text&format=json&page=List_of_cognitive_biases');
+		});
+		it('should contain the base url for a WikiMedia API call', function() {
+			expect(dataUrl).to.contain('http://en.wikipedia.org/w/api.php');
+		});
+	});
 
-	// 		function isArrayOfObjects(array) {
-	// 			return array.every(function(item) {
-	// 				return typeof item === 'object';
-	// 			});
-	// 		}
-	// 	});
+	/* --- parseWikiMediaResult --- */
+	// describe('parseWikiMediaResult!', function () {
+	// 	const callResult = {
+	// 		"batchcomplete": "",
+	// 		"query": {
+	// 			 "normalized": [
+	// 				 {
+	// 					 "from": "magical thinking",
+	// 					 "to": "Magical thinking"
+	// 				 }
+	// 			 ],
+	// 			 "pages": {
+	// 				 "185307": {
+	// 					 "pageid": 185307,
+	// 					 "ns": 0,
+	// 					 "title": "Magical thinking",
+	// 					 "revisions": [
+	// 						 {
+	// 							 "contentformat": "text/x-wiki",
+	// 							 "contentmodel": "wikitext",
+	// 							 "*": "<div class=\"mw-parser-output\"><div role=\"note\" class=\"hatnote navigation-not-searchable\">For other uses, see <a href=\"/wiki/Magical_thinking_(disambiguation)\" class=\"mw-disambig\" title=\"Magical thinking (disambiguation)\">Magical thinking (disambiguation)</a></div></div>"
+	// 						 }
+	// 					 ]
+	// 				 }
+	// 			 }
+	// 		 }
+	// 	 };
+	// 	const parseResult = curator.parseWikiMediaResult(callResult);
+	// 	console.log('parseResult',parseResult);
 	// 	it('should contain someone', function () {
-	// 		var randomArtist = curator.getArtist();
-	// 		expect(curator.getArtists).to.include(randomArtist);
-	// 	});
-	// });
-
-	// parseWikiMediaResult: parseWikiMediaResult,
-	// describe('getArtists', function () {
-	// 	it('should return a list of artists', function() {
-	// 		expect(curator.getArtists).to.satisfy(isArrayOfObjects);
-
-	// 		function isArrayOfObjects(array) {
-	// 			return array.every(function(item) {
-	// 				return typeof item === 'object';
-	// 			});
-	// 		}
-	// 	});
-	// 	it('should contain someone', function () {
-	// 		var randomArtist = curator.getArtist();
-	// 		expect(curator.getArtists).to.include(randomArtist);
+	// 		expect(curator.parseWikiMediaResult(callResult)).to.equal(parseResult);
 	// 	});
 	// });
 
@@ -72,22 +85,19 @@ describe('curator', function() {
 	// 	});
 	// });
 
-	// createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
-	// describe('getArtists', function () {
-	// 	it('should return a list of artists', function() {
-	// 		expect(curator.getArtists).to.satisfy(isArrayOfObjects);
-
-	// 		function isArrayOfObjects(array) {
-	// 			return array.every(function(item) {
-	// 				return typeof item === 'object';
-	// 			});
-	// 		}
-	// 	});
-	// 	it('should contain someone', function () {
-	// 		var randomArtist = curator.getArtist();
-	// 		expect(curator.getArtists).to.include(randomArtist);
-	// 	});
-	// });
+	/* --- createSingleWikiMediaPageUrl --- */
+	describe('createSingleWikiMediaPageUrl', function () {
+		const dataUrl = curator.createSingleWikiMediaPageUrl('magical thinking');
+		it('should return a string', function() {
+			expect(dataUrl).to.be.a('string');
+		});
+		it('should contain a WikiMedia API call string', function() {
+			expect(dataUrl).to.equal('http://en.wikipedia.org/w/api.php?action=parse&section=0&prop=text&format=json&page=magical_thinking');
+		});
+		it('should contain the base url for a WikiMedia API call', function() {
+			expect(dataUrl).to.contain('http://en.wikipedia.org/w/api.php');
+		});
+	});
 
 	/* ----- Original Tests --------- */
 	describe('getArtists', function () {
@@ -107,7 +117,7 @@ describe('curator', function() {
 	});
 	describe('getArtist', function () {
 		it('should return a searched for artist', function() {
-			var artist = { Artist: 'Abie Loy Kemarre'}
+			var artist = { Artist: 'Abie Loy Kemarre'};
 			expect(curator.searchArtists('abie') === artist);
 		});
 		it('should return null if the artist is not found', function() {
