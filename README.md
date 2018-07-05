@@ -251,7 +251,7 @@ Functions    : 46.15% ( 6/13 )
 Lines        : 53.47% ( 54/101 )
 ```
 
-After adding a few tests for the everything except the two pasrse functions, our coverage has gotten a bit better:
+After adding a few tests for the everything except the two parse functions, our coverage has gotten a bit better:
 ```
 Statements   : 72.97% ( 81/111 ), 1 ignored
 Branches     : 86.36% ( 19/22 ), 4 ignored
@@ -259,3 +259,9 @@ Functions    : 69.23% ( 9/13 )
 Lines        : 70.3% ( 71/101 )
 ```
 
+The reason the parse funtions were not testing is because they require a response object to be converted into JSON.
+
+I'm looking at Sinon now as a way to mock the response object and attach the content to it to test the rest of the parse function.  The result is first converted to JSON, and the content is help in a _body parameter, which has the root property of 'parse'.  
+
+So we look at these three: ```['parse']['text']['*']``` which then contains the content we want.
+Maybe we will have to construct our own object that has a parse function and a _body parameter.

@@ -1,5 +1,7 @@
 import {expect} from 'chai';
 import curator from'./index.js';
+import { sinon, spy, stub } from 'sinon';
+
 // ES5 versions
 // var expect = require('chai').expect;
 // var curator = require('./index.js');
@@ -22,49 +24,37 @@ describe('curator', function() {
 
 	/* --- createWikiMediaUrl --- */
 	describe('createWikiMediaUrl', function () {
-		const dataUrl = curator.createWikiMediaUrl();
+		const dataUrl = curator.createWikiMediaUrl(1);
 		it('should return a string', function() {
 			expect(dataUrl).to.be.a('string');
 		});
 		it('should contain a WikiMedia API call string', function() {
-			expect(dataUrl).to.equal('http://en.wikipedia.org/w/api.php?action=parse&section=undefined&prop=text&format=json&page=List_of_cognitive_biases');
+			expect(dataUrl).to.equal('http://en.wikipedia.org/w/api.php?action=parse&section=1&prop=text&format=json&page=List_of_cognitive_biases');
 		});
 		it('should contain the base url for a WikiMedia API call', function() {
 			expect(dataUrl).to.contain('http://en.wikipedia.org/w/api.php');
 		});
 	});
 
-	/* --- parseWikiMediaResult --- */
+	// /* --- parseWikiMediaResult --- */
 	// describe('parseWikiMediaResult!', function () {
 	// 	const callResult = {
-	// 		"batchcomplete": "",
-	// 		"query": {
-	// 			 "normalized": [
-	// 				 {
-	// 					 "from": "magical thinking",
-	// 					 "to": "Magical thinking"
-	// 				 }
-	// 			 ],
-	// 			 "pages": {
-	// 				 "185307": {
-	// 					 "pageid": 185307,
-	// 					 "ns": 0,
-	// 					 "title": "Magical thinking",
-	// 					 "revisions": [
-	// 						 {
-	// 							 "contentformat": "text/x-wiki",
-	// 							 "contentmodel": "wikitext",
-	// 							 "*": "<div class=\"mw-parser-output\"><div role=\"note\" class=\"hatnote navigation-not-searchable\">For other uses, see <a href=\"/wiki/Magical_thinking_(disambiguation)\" class=\"mw-disambig\" title=\"Magical thinking (disambiguation)\">Magical thinking (disambiguation)</a></div></div>"
-	// 						 }
-	// 					 ]
-	// 				 }
-	// 			 }
-	// 		 }
-	// 	 };
-	// 	const parseResult = curator.parseWikiMediaResult(callResult);
+	// 		"parse": {
+	// 		  "title": "List of cognitive biases",
+	// 		  "pageid": 510791,
+	// 		  "text": {
+	// 			"*": "<div class=\"mw-parser-output\"><h2><span id=\"Decision-making.2C_belief.2C_and_behavioral_biases\">"
+	// 			}
+	// 		}
+	// 	}
+	// 	let mockResponse = {
+	// 		parse: parse(),
+	// 		_body: callResult
+	// 	}
+	// 	const parseResult = curator.parseWikiMediaResult(mockResponse);
 	// 	console.log('parseResult',parseResult);
 	// 	it('should contain someone', function () {
-	// 		expect(curator.parseWikiMediaResult(callResult)).to.equal(parseResult);
+	// 		expect(parseResult).to.equal(parseResult);
 	// 	});
 	// });
 

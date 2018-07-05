@@ -49,13 +49,14 @@ function createWikiMediaUrl(sectionNum) {
  * multiple rows of name and definition pairs.
  */
 function parseWikiMediaResult(res) {
+    console.log('res',res);
     let parseResult;
     try {
         parseResult = res.json();
     } catch (err) {
-        err.log('TypeError: res.json is not a function');
+        console.log('TypeError: res.json is not a function');
     }
-    const content = parse['parse']['text']['*'];
+    const content = parseResult['parse']['text']['*'];
     let one = this.createElementFromHTML(content);
     let title = this.parseTitle(one);
     const rows = one.getElementsByClassName("wikitable")[0].getElementsByTagName('tr');
