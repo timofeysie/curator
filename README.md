@@ -116,7 +116,7 @@ $ node
 ```
 
 
-## Commiting
+## Committing
 Make sure that you have Node.js installed.
 This package uses commitizen to create it's sematic releases.  First add your changes then run the commit:
 ```

@@ -36,22 +36,10 @@ describe('curator', function() {
 		});
 	});
 
-	// /* --- parseWikiMediaResult --- */
+	/* --- parseWikiMediaResult --- */
 	// describe('parseWikiMediaResult!', function () {
-	// 	const callResult = {
-	// 		"parse": {
-	// 		  "title": "List of cognitive biases",
-	// 		  "pageid": 510791,
-	// 		  "text": {
-	// 			"*": "<div class=\"mw-parser-output\"><h2><span id=\"Decision-making.2C_belief.2C_and_behavioral_biases\">"
-	// 			}
-	// 		}
-	// 	}
-	// 	let mockResponse = {
-	// 		parse: parse(),
-	// 		_body: callResult
-	// 	}
-	// 	const parseResult = curator.parseWikiMediaResult(mockResponse);
+	// 	const section1 = require('./data/section1.json');
+	// 	const parseResult = curator.parseWikiMediaResult(section1);
 	// 	console.log('parseResult',parseResult);
 	// 	it('should contain someone', function () {
 	// 		expect(parseResult).to.equal(parseResult);

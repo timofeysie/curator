@@ -7,6 +7,8 @@ var getRandomArtist = uniqueRandomArray(artists);
 import * as wdk from 'wikidata-sdk';
 
 module.exports = {
+    parseTitle: parseTitle,
+    createElementFromHTML:createElementFromHTML,
 	createWikiDataUrl: createWikiDataUrl,
 	createWikiMediaUrl: createWikiMediaUrl,
 	parseWikiMediaResult: parseWikiMediaResult,
@@ -48,14 +50,7 @@ function createWikiMediaUrl(sectionNum) {
 /** Parse the result of a WikiMedia API call to return a text version of
  * multiple rows of name and definition pairs.
  */
-function parseWikiMediaResult(res) {
-    console.log('res',res);
-    let parseResult;
-    try {
-        parseResult = res.json();
-    } catch (err) {
-        console.log('TypeError: res.json is not a function');
-    }
+function parseWikiMediaResult(parseResult) {
     const content = parseResult['parse']['text']['*'];
     let one = this.createElementFromHTML(content);
     let title = this.parseTitle(one);
@@ -86,13 +81,12 @@ function createSingleWikiMediaPageUrl(pageName) {
  * @param res 
  */
 function parseSingeWikiMediaPage(res) {
-	const parse = res.json();
 	const content = parse['parse']['text']['*'];
 	let one = this.createElementFromHTML(content);
 	const desc = one.getElementsByClassName('mw-parser-output')[0].children;
 	let descriptions = [];
 	for (let i = 0; i < desc.length;i++) {
-	descriptions.push(desc[i].innerText);
+	    descriptions.push(desc[i].innerText);
 	}
 	return descriptions;
 }

@@ -1,6 +1,6 @@
 {
   "name": "art-curator",
-  "version": "1.2.5-sematically-released",
+  "version": "1.2.6",
   "description": "Art collection manager",
   "main": "dist/index.js",
   "scripts": {
