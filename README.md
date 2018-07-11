@@ -3,15 +3,130 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
 
 
-A micro-library of functions to manage artists and thier paintings.
+A micro-library of functions to manage lists of items and detail descriptions about them.  Originally for artists and thier paintings, it has been expanded to help retrieve lists of items from the WikiData and WikiMedia APIs.
 
-The GitHub repo is called curator, but the npm repo is named art-curator since curator already exists as an npm module.  This has created problems with Travis.
+The GitHub repo is called curator, but the npm repo is named art-curator since curator already existed as an npm module.  This has created problems with Travis.
+
 We do unit testing with Mocha and Chai.  Conventional commits are done with commitizen.  The releases are automated with semantic-release.  Tests are automatically run before commits with ghooks.  Code coverage is recorded with Istanbul.  Badges are added to the README with Codecov and shields.io.  ES6 support is added with Babel.  Travis is used for continuous deployment.
 
 The prebuild, build and postbuild scripts in the package.json compile the src directory to the dist directory while copying any data files needed.  ES6 code is run in implied strict mode and is transpiled down to ES5.
 
 
-## A new beginning
+#
+
+## Table of contents
+
+### [Removing preambles from Wikipedia content pages](#Removing-preambles-from-Wikipedia-content-pages)
+### [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
+### [Installation](#Installation)
+### [Usage](#Usage)
+### [Workflows](#workflows)
+### [Committing](#committing)
+### [Publishing a beta versions](#Publishing-a-beta-versions)
+### [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
+### [Errata](#errata)
+### [WIP](#wip)
+
+#
+
+## Removing preambles from Wikipedia content pages
+
+Many pages have preambles regarding the content which should be hidden.  It would be a good idea to keep these preambles and let the user view them on demand.  They should not detract from the primary description of the item.
+
+Example:
+```
+This article may be in need of reorganization to comply with Wikipedia's layout guidelines. Please help by editing the article to make improvements to the overall structure. (August 2013) (Learn how and when to remove this template message)
+```
+
+As a first step in the [React Native](https://github.com/timofeysie/teretifolia) app they were removed by hand in this fashion: 
+```
+    const preamble = unescapedHtml.indexOf('This article is about');
+    if (preamble !== -1) {
+        const endOfSentence = unescapedHtml.indexOf('.');
+        unescapedHtml = unescapedHtml.slice(endOfSentence+1, unescapedHtml.length);
+    }
+    const preamble2 = unescapedHtml.indexOf('For other uses, see');
+    if (preamble !== -1) {
+        const endOfSentence = unescapedHtml.indexOf('.');
+        unescapedHtml = unescapedHtml.slice(endOfSentence+1, unescapedHtml.length);
+    }
+```
+
+This has all arisen due to the virtual dom that does not have the functions the curator needs to call to parse the HTML for example to find the list of <p> elements on a page.
+
+After stripping off the html, which is all that is required for many pages, there would still be these preambles that get in the way of seeing the definition.
+
+We may take the route of using a library to create and parse DOM structures in the curator, but seeing these preambles gives rise to the idea that they are in fact important to the validity of the definitions and can be provided in some kind of expanding/contracting widget.  To this end we are detailing the various types here to plan how to deal with them.  
+
+Even the [Ionic 4 app](https://github.com/timofeysie/loranthifolia) currently does not exclude these comments.
+
+For example, these preambles show up on the "Cultural bias" page:
+```
+For systemic bias on Wikipedia and how to reduce it, see Wikipedia:Systemic bias.
+For Wikipedia's editorial policy on avoiding bias, see Wikipedia:Neutral point of view.
+This article includes a list of references, but its sources remain unclear because it has insufficient inline citations. Please help to improve this article by introducing more precise citations. (July 2008) (Learn how and when to remove this template message)
+```
+
+We could scrape this like we did with the splice string method before, but there should be appropriate indications in the markup that we can use a selector query to do all the work for us.
+
+That would make even more reasons to use a library like jsdom.  Lets look at the markup to decide how to do this.
+```
+<div class="mw-parser-output">
+    <div role="note" class="hatnote navigation-not-searchable">
+        <span class="plainlinks selfreference noprint">
+            For <a href="/wiki/Systemic_bias" title="Systemic bias">
+            systemic bias</a> 
+            on Wikipedia and how to reduce it, see <a href="/wiki/Wikipedia:Systemic_bias" title="Wikipedia:Systemic bias">
+            Wikipedia:Systemic bias</a>.
+        </span>
+    </div>
+    <div role="note" class="hatnote navigation-not-searchable">
+        <span class="plainlinks selfreference noprint">
+            For Wikipedia's editorial policy on avoiding bias, see <a href="/wiki/Wikipedia:Neutral_point_of_view" title="Wikipedia:Neutral point of view">
+            Wikipedia:Neutral point of view</a>.
+        </span>
+    </div>
+    <table class="plainlinks metadata ambox ambox-style ambox-More_footnotes" role="presentation">
+        <tbody>
+            <tr>
+                <td class="mbox-image">
+                    <div style="width:52px">
+                        <img alt="" src="//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Text_document_with_red_question_mark.svg/40px-Text_document_with_red_question_mark.svg.png" width="40" height="40" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Text_document_with_red_question_mark.svg/60px-Text_document_with_red_question_mark.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Text_document_with_red_question_mark.svg/80px-Text_document_with_red_question_mark.svg.png 2x" data-file-width="48" data-file-height="48" />
+                    </div>
+                </td>
+                <td class="mbox-text">
+                    <div class="mbox-text-span">
+                        This article includes a <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">
+                        list of references</a>, 
+                        but <b>its sources remain unclear</b> because it has <b>insufficient <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.<span class="hide-when-compact"> Please help to <a href="/wiki/Wikipedia:WikiProject_Fact_and_Reference_Check" title="Wikipedia:WikiProject Fact and Reference Check">improve</a> this article by <a href="/wiki/Wikipedia:When_to_cite" title="Wikipedia:When to cite">introducing</a> more precise citations.</span>  <small><i>(July 2008)</i></small><small class="hide-when-compact"><i> (<a href="/wiki/Help:Maintenance_template_removal" title="Help:Maintenance template removal">Learn how and when to remove this template message</a>)</i></small>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p>
+        <b>Cultural bias</b> is the phenomenon of interpreting and judging phenomena by standards inherent to one's own culture. The phenomenon is sometimes considered a problem central to social and human sciences, such as <a href="/wiki/Economics" title="Economics">economics</a>, <a href="/wiki/Psychology" title="Psychology">psychology</a>, <a href="/wiki/Anthropology" title="Anthropology">anthropology</a>, and <a href="/wiki/Sociology" title="Sociology">sociology</a>. Some practitioners of the aforementioned fields have attempted to develop methods and theories to compensate for or eliminate cultural bias.
+    </p>
+    <p>
+        Cultural bias occurs when people of a culture make assumptions about conventions, including conventions of language, notation, proof and evidence. They are then accused of mistaking these assumptions for laws of logic or nature. Numerous such biases exist, concerning cultural norms for color, mate selection, concepts of justice, <a href="/wiki/Linguistics" title="Linguistics">linguistic</a> and logical validity, the acceptability of evidence, and taboos.
+    </p>
+```
+
+So you can see the ```role="note"``` designates the first kind of preamble.
+Then the box with the icon has a ```role="presentation"```.  The description later starts with <p> tags which denote paragraphs which is following semantic guidelines.
+
+Right now we are just doing this:
+```
+const desc:any = one.getElementsByClassName('mw-parser-output')[0].children;
+```
+
+We then take only the inner html from those children, which as you can see includes the preambles as well as the table.
+We should instead look for roles and capture those in a separate array, and then put just the <p> content in another.
+
+Maybe these should be two separate functions.  One to get the descriptions and the other to get the roles based content.  This was the API will stay the same.  Instead of using jsdom, Cheerio has done well in the past and is still a popular repo.  Let's go with that.
+
+
+## WikiData and WikiMedia functions
 
 This project is being dusted off as our only published npm.  We want to use it to hold the refactored code from the Ionic 4 project so that it can also be used in the React Native app.
 
@@ -133,7 +248,7 @@ To see if everything is ok:
 $ git log
 ```
 
-## Publishing a beta versions: 
+## Publishing a beta versions
 Bump the version with the sufix -beta.0. Ex: 1.3.1-beta.3.  As usual, commit the code, add a new tag, push to GitHub, push the tags, publish to NPM with –tag beta . 
 ```
 $ git add & git commit
@@ -143,7 +258,7 @@ $ git push --tags
 $ npm publish --tag beta
 ```
 
-## Releasing a new version to NPM:
+## Releasing a new version to NPM
 We use Semantic Versioning to bump the version correctly.  Commit the code, add a new tag, push to GitHub, push the tags and republish to NPM.
 ```
 $ git add & git commit

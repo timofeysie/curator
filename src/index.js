@@ -83,7 +83,8 @@ function createSingleWikiMediaPageUrl(pageName) {
 function parseSingeWikiMediaPage(res) {
 	const content = res['parse']['text']['*'];
 	let one = this.createElementFromHTML(content);
-	const desc = one.getElementsByClassName('mw-parser-output')[0].children;
+	//const desc = one.getElementsByClassName('mw-parser-output')[0].children;
+	const desc = one.getElementsByTagName('p');
 	let descriptions = [];
 	for (let i = 0; i < desc.length;i++) {
 	    descriptions.push(desc[i].innerText);
