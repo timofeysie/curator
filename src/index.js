@@ -5,6 +5,7 @@ import uniqueRandomArray from 'unique-random-array';
 // var uniqueRandomArray = require('unique-random-array');
 var getRandomArtist = uniqueRandomArray(artists);
 import * as wdk from 'wikidata-sdk';
+import * as cheerio from 'cheerio';
 
 module.exports = {
     parseTitle: parseTitle,
@@ -13,7 +14,8 @@ module.exports = {
 	createWikiMediaUrl: createWikiMediaUrl,
 	parseWikiMediaResult: parseWikiMediaResult,
 	parseSingeWikiMediaPage: parseSingeWikiMediaPage,
-	createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
+    createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
+    parseNotesForSingeWikiMediaPage: parseNotesForSingeWikiMediaPage,
   	getArtists: artists,
   	getArtist: getArtist,
   	searchArtists: searchArtists,
@@ -77,18 +79,26 @@ function createSingleWikiMediaPageUrl(pageName) {
 	return sectionUrl;
 }
 /**
- * Parse the result from an API call to get a single subject page on Wikipedia.
+ * Parse the result from a WikiMedia page API call to get the content of 
+ * a single subject page on Wikipedia.
  * @param res 
  */
 function parseSingeWikiMediaPage(res) {
-	const content = res['parse']['text']['*'];
-	let one = this.createElementFromHTML(content);
-	//const desc = one.getElementsByClassName('mw-parser-output')[0].children;
-	const desc = one.getElementsByTagName('p');
-	let descriptions = [];
-	for (let i = 0; i < desc.length;i++) {
-	    descriptions.push(desc[i].innerText);
-	}
+    const content = res['parse']['text']['*'];
+    const $ = cheerio.load(content);
+    let descriptions = $('p').text().trim();
+	return descriptions;
+}
+/**
+ * Parse the result from a WikiMedia page API call to get the content of 
+ * a single subject page on Wikipedia.
+ * @param res 
+ */
+function parseNotesForSingeWikiMediaPage(res) {
+    const content = res['parse']['text']['*'];
+    const $ = cheerio.load(content);
+        console.log('x',$().attr('role'));
+    let descriptions = $('div').attr('role');
 	return descriptions;
 }
 /**

@@ -1,6 +1,6 @@
 {
   "name": "art-curator",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Art collection manager",
   "main": "dist/index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/timofeysie/curator#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "unique-random-array": "1.0.0",
     "wikidata-sdk": "^5.12.0"
   },
@@ -41,7 +42,7 @@
     "istanbul": "0.3.22",
     "mocha": "2.3.3",
     "semantic-release": "^4.3.5",
-    "sinon": "^6.1.0"
+    "sinon": "^6.1.3"
   },
   "czConfig": {
     "path": "node_modules/cz-conventional-changelog"

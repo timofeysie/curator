@@ -125,6 +125,34 @@ We should instead look for roles and capture those in a separate array, and then
 
 Maybe these should be two separate functions.  One to get the descriptions and the other to get the roles based content.  This was the API will stay the same.  Instead of using jsdom, Cheerio has done well in the past and is still a popular repo.  Let's go with that.
 
+After installing Cherrio, and using it in the  function, and chaning the test to use the sample result from the cultural bias shown above, we're getting a really strange error:
+```
+ReferenceError: React is not defined
+    at Object.<anonymous> (/Users/tim/repos/loranthifolia-teretifolia-curator/curator/src/data/Cultural_bias.html:1:1)
+```
+
+How is some html markup requiring React?  Did someone run a npm task which required React for tests?  Line 1 of that file is just ```<div class="mw-parser-output">```...
+
+The only mention of React is in the package-lock.json file:
+```
+            "babel-plugin-react-constant-elements": "^1.0.3",
+            "babel-plugin-react-display-name": "^1.0.3",
+```
+
+Not sure why that was happening so put the html content inline.  Then it took a little time to get ```parseSingeWikiMediaPage(htmlContent)``` working.  Couldn't get the array of notes/preambles yet.  Have to work out how to do that with Cheerio.  For now, time to test out the new function in the React app.  The best news is that the test for that function is passing thanks to Cheerio providing our missing DOM functions!
+
+The bad news is commitizen is failing:
+```
+Error: Cannot find module 'internal/util/types'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at evalmachine.<anonymous>:31:26
+    at Object.<anonymous> (/Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/commitizen/node_modules/gulp/node_modules/vinyl-fs/node_modules/graceful-fs/fs.js:11:1)
+```
+
+Going with normal git commits for now.
 
 ## WikiData and WikiMedia functions
 
