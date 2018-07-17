@@ -16,6 +16,8 @@ module.exports = {
 	parseSingeWikiMediaPage: parseSingeWikiMediaPage,
     createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
     parseNotesForSingeWikiMediaPage: parseNotesForSingeWikiMediaPage,
+    removeHtml: removeHtml,
+    removeWikiDataPreambles: removeWikiDataPreambles,
   	getArtists: artists,
   	getArtist: getArtist,
   	searchArtists: searchArtists,
@@ -100,6 +102,53 @@ function parseNotesForSingeWikiMediaPage(res) {
         console.log('x',$().attr('role'));
     let descriptions = $('div').attr('role');
 	return descriptions;
+}
+/**
+ * Removes html and special characters from an html string.
+ * @param {html string} content 
+ */
+function removeHtml(content) {
+    const stripedHtml = content.replace(/<[^>]+>/g, '');
+    let unescapedHtml = unescape(stripedHtml).trim();
+        // remove newlines
+        unescapedHtml = unescapedHtml.replace(/\n|\r/g, '');
+        // concat spaces
+        unescapedHtml = unescapedHtml.replace(/\s{2,}/g, ' ');
+        unescapedHtml = unescapedHtml.replace(/&#91;/g, '[');
+        unescapedHtml = unescapedHtml.replace(/&#93;/g, ']');
+        unescapedHtml = unescapedHtml.replace(/&#8239;/g, '->');
+        unescapedHtml = unescapedHtml.replace(/&#123;/g, '{');
+        unescapedHtml = unescapedHtml.replace(/&#125;/g, '}');
+        unescapedHtml = unescapedHtml.replace(/&#160;/g, '');
+        unescapedHtml = unescapedHtml.replace(/&amp;/g, '&');
+    return unescapedHtml;
+}
+/**
+ * Removes the various preambles for description content.
+ */
+function removeWikiDataPreambles(content) {
+    // remove preambles
+    const preamble = content.indexOf('This article is about');
+    if (preamble !== -1) {
+        const endOfSentence = content.indexOf('.');
+        content = content.slice(endOfSentence+1, content.length);
+    }
+    const preamble2 = content.indexOf('For other uses, see');
+    if (preamble2 !== -1) {
+        const endOfSentence = content.indexOf('.');
+        content = content.slice(endOfSentence+1, content.length);
+    }
+    const preamble3 = content.indexOf('For systemic bias on Wikipedia and how to reduce it');
+    if (preamble3 !== -1) {
+        const endOfSentence = content.indexOf('.');
+        content = content.slice(endOfSentence+1, content.length);
+    }
+    const preamble4 = content.indexOf('For Wikipedia\'s editorial policy on avoiding bias');
+    if (preamble4 !== -1) {
+        const endOfSentence = content.indexOf('.');
+        content = content.slice(endOfSentence+1, content.length);
+    }
+    return content;
 }
 /**
    * Convert the result content to an html node for easy access to the content.

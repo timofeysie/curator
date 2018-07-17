@@ -100,9 +100,18 @@ describe('curator', function() {
 		it('should contain some content', function () {
 			expect(result).to.equal(expected);
 		});
-		// it('should contain some roles', function () {
-		// 	expect(notes).to.equal(expected);
-		// });
+		const unescapedHtml = curator.removeHtml(cultural);
+		const newContent = curator.removeWikiDataPreambles(unescapedHtml);
+		it('should not contain the \`this article is about\` preamble', function () {
+			expect(newContent).to.not.contain('This article is about');
+		});
+		it('should not contain the \'systemic bias \' preamble', function () {
+			expect(newContent).to.not.contain('For systemic bias on Wikipedia and how to reduce it, see');
+		});
+		it('should not contain the \'editorial policy\' preamble', function () {
+			expect(newContent).to.not.contain('For Wikipedia\'s editorial policy on avoiding bias, see');
+		});
+		//console.log('newContent',newContent);
 	});
 
 	/* --- createSingleWikiMediaPageUrl --- */

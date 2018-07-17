@@ -154,6 +154,7 @@ Error: Cannot find module 'internal/util/types'
 
 Going with normal git commits for now.
 
+
 ## WikiData and WikiMedia functions
 
 This project is being dusted off as our only published npm.  We want to use it to hold the refactored code from the Ionic 4 project so that it can also be used in the React Native app.
