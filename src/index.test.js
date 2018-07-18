@@ -35,19 +35,8 @@ describe('curator', function() {
 			expect(dataUrl).to.contain('http://en.wikipedia.org/w/api.php');
 		});
 	});
-
-	/* --- parseWikiMediaResult --- */
-	// describe('parseWikiMediaResult!', function () {
-	// 	const section1 = require('./data/section1.json');
-	// 	const parseResult = curator.parseWikiMediaResult(section1);
-	// 	console.log('parseResult',parseResult);
-	// 	it('should contain someone', function () {
-	// 		expect(parseResult).to.equal(parseResult);
-	// 	});
-	// });
-
-	/* --- parseSingeWikiMediaPage: parseSingeWikiMediaPage --*/
-	describe('parseSingeWikiMediaPage', function () {
+	/* --- removeHtml & removeWikiDataPreambles --*/
+	describe('removeHtml & removeWikiDataPreambles', function () {
 		const cultural = `<div>
 		<div role="note" class="hatnote navigation-not-searchable">
 		   <span class="plainlinks selfreference noprint">
@@ -93,14 +82,10 @@ describe('curator', function() {
 				 "*": cultural
 		 	}
 	 }}
-		const result = curator.parseSingeWikiMediaPage(jsonObj);
-		//const notes = curator.parseNotesForSingeWikiMediaPage(jsonObj);
-		//console.log('result',result);
-		const expected = 'Cultural bias is the phenomenon of interpreting and judging phenomena by standards inherent to one\'s own culture. The phenomenon is sometimes considered a problem central to social and human sciences, such as economics, psychology, anthropology, and sociology. Some practitioners of the aforementioned fields have attempted to develop methods and theories to compensate for or eliminate cultural bias.\n\t\t\n\t\t   Cultural bias occurs when people of a culture make assumptions about conventions, including conventions of language, notation, proof and evidence. They are then accused of mistaking these assumptions for laws of logic or nature. Numerous such biases exist, concerning cultural norms for color, mate selection, concepts of justice, linguistic and logical validity, the acceptability of evidence, and taboos.';
-		it('should contain some content', function () {
-			expect(result).to.equal(expected);
-		});
 		const unescapedHtml = curator.removeHtml(cultural);
+		it('should not contain markup', function () {
+			expect(unescapedHtml).to.not.contain('<');
+		});
 		const newContent = curator.removeWikiDataPreambles(unescapedHtml);
 		it('should not contain the \`this article is about\` preamble', function () {
 			expect(newContent).to.not.contain('This article is about');

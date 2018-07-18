@@ -5,7 +5,6 @@ import uniqueRandomArray from 'unique-random-array';
 // var uniqueRandomArray = require('unique-random-array');
 var getRandomArtist = uniqueRandomArray(artists);
 import * as wdk from 'wikidata-sdk';
-import * as cheerio from 'cheerio';
 
 module.exports = {
     parseTitle: parseTitle,
@@ -13,9 +12,7 @@ module.exports = {
 	createWikiDataUrl: createWikiDataUrl,
 	createWikiMediaUrl: createWikiMediaUrl,
 	parseWikiMediaResult: parseWikiMediaResult,
-	parseSingeWikiMediaPage: parseSingeWikiMediaPage,
     createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
-    parseNotesForSingeWikiMediaPage: parseNotesForSingeWikiMediaPage,
     removeHtml: removeHtml,
     removeWikiDataPreambles: removeWikiDataPreambles,
   	getArtists: artists,
@@ -79,29 +76,6 @@ function createSingleWikiMediaPageUrl(pageName) {
 	const baseUrl = 'http://en.wikipedia.org/w/api.php';
 	let sectionUrl = baseUrl+'?'+action+'&'+section+'&'+prop+'&'+page;
 	return sectionUrl;
-}
-/**
- * Parse the result from a WikiMedia page API call to get the content of 
- * a single subject page on Wikipedia.
- * @param res 
- */
-function parseSingeWikiMediaPage(res) {
-    const content = res['parse']['text']['*'];
-    const $ = cheerio.load(content);
-    let descriptions = $('p').text().trim();
-	return descriptions;
-}
-/**
- * Parse the result from a WikiMedia page API call to get the content of 
- * a single subject page on Wikipedia.
- * @param res 
- */
-function parseNotesForSingeWikiMediaPage(res) {
-    const content = res['parse']['text']['*'];
-    const $ = cheerio.load(content);
-        console.log('x',$().attr('role'));
-    let descriptions = $('div').attr('role');
-	return descriptions;
 }
 /**
  * Removes html and special characters from an html string.

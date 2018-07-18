@@ -154,6 +154,26 @@ Error: Cannot find module 'internal/util/types'
 
 Going with normal git commits for now.
 
+And it turns out that this was not the only bad news.  After including Cheerio in the lib, both projects experienced problems that were difficult to diganose and fix.  The answer to [this StackOverflow](https://stackoverflow.com/questions/51273179/implementing-a-package-returns-module-util-does-not-exist-in-the-haste-module-m) question puts the problem well:
+*feedparser is designed to run in node.js not react native. You may be able to make it work regardless by installing the util package from npm.*
+
+The answer says that installing the missing packages may work.  MAY.  And this could be a potential problem for other lib users.  So the decision has been made to remove Cheerio and follow the advice from 2013 regarding using regex to do the parsing.
+
+This choice is easy an fun but brittle to change and not idea.  We could provide alternate functions and let the actual selection of content be done in the client.  Then Ionic can use the window document, and React Native can use regex to target content.  If all the functionality is in separate functions, then repetition of code can be minimized to DOM parsing functions only.
+
+[This parser](https://www.npmjs.com/package/react-native-html-parser) has zero dependencies.  Based on xmldom, but not dependant on it?  That package is a *A PURE JS W3C Standard based(XML DOM Level2 CORE) DOMParser and XMLSerializer.*
+
+Still, we can't use that because we don't want to include a React library in an Ionic project.  Unless it works of course.  Is having the "React Native" name in the lib a problem?
+
+The question is for the error ```Module 'util' does not exist in the Haste module map```
+In the React Native app it's ```Module 'events' does not exist in the Haste module``
+
+Slightly different.  The solution for including those libs with npm does not work for the client.  Maybe it works for this Node lib?  Should we give it a try?  
+
+Not sure.  With all this reading the regex parsing functions could be rolling in action.
+
+Whatever happens, Cheerio needs to go to see if that will fix the React project build.  Going to version 1.3 now.
+
 
 ## WikiData and WikiMedia functions
 
