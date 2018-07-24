@@ -258,6 +258,10 @@ $ npm install art-curator@1.3.1-beta.3
 
 
 ## Usage
+
+After installing the lib with npm it can be used in these ways.
+
+For NodeJS:
 ```
 var curator = require('./node_modules/art-curator/dist/index.js');
 curator.createWikiDataUrl()
@@ -266,6 +270,11 @@ curator.getArtist()
 curator.searchArtists('abie');
 curator.getBio('albert');
 curator.artistsReport()
+```
+
+For TypeScript/ES6 it can be imported like this:
+```
+import * as curator from 'art-curator';
 ```
 
 
