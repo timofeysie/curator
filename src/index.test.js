@@ -10,7 +10,7 @@ describe('curator', function() {
 
 	/* --- createWikiDataUrl --- */
 	describe('createWikiDataUrl', function () {
-		const dataUrl = curator.createWikiDataUrl();
+		const dataUrl = curator.createWikiDataUrl('en');
 		it('should return a string', function() {
 			expect(dataUrl).to.be.a('string');
 		});
@@ -24,7 +24,7 @@ describe('curator', function() {
 
 	/* --- createWikiMediaUrl --- */
 	describe('createWikiMediaUrl', function () {
-		const dataUrl = curator.createWikiMediaUrl(1);
+		const dataUrl = curator.createWikiMediaUrl(1, 'en');
 		it('should return a string', function() {
 			expect(dataUrl).to.be.a('string');
 		});
@@ -101,7 +101,7 @@ describe('curator', function() {
 
 	/* --- createSingleWikiMediaPageUrl --- */
 	describe('createSingleWikiMediaPageUrl', function () {
-		const dataUrl = curator.createSingleWikiMediaPageUrl('magical thinking');
+		const dataUrl = curator.createSingleWikiMediaPageUrl('magical thinking', 'en');
 		it('should return a string', function() {
 			expect(dataUrl).to.be.a('string');
 		});

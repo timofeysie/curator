@@ -16,20 +16,39 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 
 ## Table of contents
 
-### [Removing preambles from Wikipedia content pages](#Removing-preambles-from-Wikipedia-content-pages)
-### [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
-### [Installation](#Installation)
-### [Usage](#Usage)
-### [Workflows](#workflows)
-### [Committing](#committing)
-### [Publishing a beta versions](#Publishing-a-beta-versions)
-### [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
-### [Errata](#errata)
-### [WIP](#wip)
+1. [Adding language settings](#Adding language settings)
+1. [Removing preambles from Wikipedia](#Removing-preambles-from-Wikipedia)
+1. [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
+1. [Installation](#Installation)
+1. [Usage](#Usage)
+1. [Workflows](#workflows)
+1. [Committing](#committing)
+1. [Publishing a beta versions](#Publishing-a-beta-versions)
+1. [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
+1. [Errata](#errata)
+1. [WIP](#wip)
 
 #
 
-## Removing preambles from Wikipedia content pages
+## Adding language settings
+
+It may be as simple as this:
+```
+function createWikiDataUrl(lang) {
+    let language = 'en';
+    if (lang) {
+        language = lang;
+    }
+```
+
+And then using the language var in the that function and these also:
+```
+createWikiMediaUrl(sectionNum, lang)
+createSingleWikiMediaPageUrl(pageName, lang)
+```
+
+
+## Removing preambles from Wikipedia
 
 Many pages have preambles regarding the content which should be hidden.  It would be a good idea to keep these preambles and let the user view them on demand.  They should not detract from the primary description of the item.
 
@@ -229,11 +248,11 @@ Since the code is coming from an Ionic app which is built with Angular, using Ty
 
 The functionality has been split up into these functions:
 ```
-	createWikiDataUrl: createWikiDataUrl,
-	createWikiMediaUrl: createWikiMediaUrl,
-	parseWikiMediaResult: parseWikiMediaResult,
-	parseSingeWikiMediaPage: parseSingeWikiMediaPage,
-	createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
+	createWikiDataUrl: get the WikiData list of cognitive bias, only a few of which have definitions
+	createWikiMediaUrl(sect): this is the wikipedia list of bias that contain the content in sections 1-3 representing the three categories the bias a sorted under.
+	parseWikiMediaResult: parse the result of a call to the url above
+	parseSingeWikiMediaPage: parse the result of the following url
+	createSingleWikiMediaPageUrl(subj): create the url for a single subject on the list of bias
 ```
 
 
@@ -263,6 +282,8 @@ After installing the lib with npm it can be used in these ways.
 
 For NodeJS:
 ```
+var curator = require('art-curator');
+(or)
 var curator = require('./node_modules/art-curator/dist/index.js');
 curator.createWikiDataUrl()
 curator.getArtists
@@ -432,7 +453,7 @@ Functions    : 69.23% ( 9/13 )
 Lines        : 70.3% ( 71/101 )
 ```
 
-The reason the parse funtions were not testing is because they require a response object to be converted into JSON.
+The reason the parse funtions are not being tested is because they require a response object to be converted into JSON.  The content however is actually html.  We need to know the roles of some of the content, as well as other formatting hints to parse.
 
 I'm looking at Sinon now as a way to mock the response object and attach the content to it to test the rest of the parse function.  The result is first converted to JSON, and the content is help in a _body parameter, which has the root property of 'parse'.  
 

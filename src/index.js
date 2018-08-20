@@ -24,12 +24,15 @@ module.exports = {
 /**
  * @returns data.results.bindings
  */
-function createWikiDataUrl() {
-    const authorQid = 'Q1127759'
+function createWikiDataUrl(lang) {
+    let language = 'en';
+    if (lang) {
+        language = lang;
+    }
     const sparql = `
         SELECT ?cognitive_bias ?cognitive_biasLabel ?cognitive_biasDescription WHERE {
             SERVICE wikibase:label { 
-                bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". 
+                bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${language}". 
             }
             ?cognitive_bias wdt:P31 wd:Q1127759.
         }
@@ -39,12 +42,16 @@ function createWikiDataUrl() {
 }
 /** Create a url for a WikiMedia API call.
  * Currently set to return a list of cognitive bias. */ 
-function createWikiMediaUrl(sectionNum) {
+function createWikiMediaUrl(sectionNum, lang) {
+    let language = 'en';
+    if (lang) {
+        language = lang;
+    }
     let action = 'action=parse';
     let section = 'section='+sectionNum;
     let prop = 'prop=text&format=json';
     let page = 'page=List_of_cognitive_biases';
-    const baseUrl = 'http://en.wikipedia.org/w/api.php';
+    const baseUrl = 'http://'+language+'.wikipedia.org/w/api.php';
     let sectionUrl = baseUrl+'?'+action+'&'+section+'&'+prop+'&'+page;
 	return sectionUrl;
 }
@@ -67,13 +74,17 @@ function parseWikiMediaResult(parseResult) {
    * Create the API call for a single subject page on Wikipedia.
    * @param pageName 
    */
-function createSingleWikiMediaPageUrl(pageName) {
+function createSingleWikiMediaPageUrl(pageName, lang) {
+    let language = 'en';
+    if (lang) {
+        language = lang;
+    }
 	let action = "action=parse";
 	let section = "section=0";
 	let prop = 'prop=text&format=json';
 	let subject = pageName.replace(/\s+/g, '_').toLowerCase();
 	let page = 'page='+subject;
-	const baseUrl = 'http://en.wikipedia.org/w/api.php';
+	const baseUrl = 'http://'+language+'.wikipedia.org/w/api.php';
 	let sectionUrl = baseUrl+'?'+action+'&'+section+'&'+prop+'&'+page;
 	return sectionUrl;
 }
