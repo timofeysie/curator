@@ -73,8 +73,10 @@ function parseWikiMediaResult(parseResult) {
 /**
    * Create the API call for a single subject page on Wikipedia.
    * @param pageName 
+   * @param lang
+   * @param doNotLowerCase 
    */
-function createSingleWikiMediaPageUrl(pageName, lang) {
+function createSingleWikiMediaPageUrl(pageName, lang, doNotLowerCase) {
     let language = 'en';
     if (lang) {
         language = lang;
@@ -82,7 +84,10 @@ function createSingleWikiMediaPageUrl(pageName, lang) {
 	let action = "action=parse";
 	let section = "section=0";
 	let prop = 'prop=text&format=json';
-	let subject = pageName.replace(/\s+/g, '_').toLowerCase();
+    let subject = pageName.replace(/\s+/g, '_');
+    if (!doNotLowerCase) {
+        subject = subject.toLowerCase();
+    }
 	let page = 'page='+subject;
 	const baseUrl = 'http://'+language+'.wikipedia.org/w/api.php';
 	let sectionUrl = baseUrl+'?'+action+'&'+section+'&'+prop+'&'+page;

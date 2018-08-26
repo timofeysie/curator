@@ -111,6 +111,14 @@ describe('curator', function() {
 		it('should contain the base url for a WikiMedia API call', function() {
 			expect(dataUrl).to.contain('http://en.wikipedia.org/w/api.php');
 		});
+		const dataUrl1 = curator.createSingleWikiMediaPageUrl('Shy_Tory_Factor', 'en', true);
+		it('should not upper case the page name', function() {
+			expect(dataUrl1).to.equal('http://en.wikipedia.org/w/api.php?action=parse&section=0&prop=text&format=json&page=Shy_Tory_Factor');
+		});
+		const dataUrl2 = curator.createSingleWikiMediaPageUrl('Shy_Tory_Factor', 'en');
+		it('should upper case the page name if no third parameter is passed', function() {
+			expect(dataUrl2).to.equal('http://en.wikipedia.org/w/api.php?action=parse&section=0&prop=text&format=json&page=shy_tory_factor');
+		});
 	});
 
 	/* ----- Original Tests --------- */

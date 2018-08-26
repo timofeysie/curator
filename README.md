@@ -47,6 +47,10 @@ createWikiMediaUrl(sectionNum, lang)
 createSingleWikiMediaPageUrl(pageName, lang)
 ```
 
+The clients had a much rougher time.  So far, implementing a Korean version, there is only a list of 28 cognitive biases, with the WikiData list containing many pages that have no Korean version which needed to be weeded out.  The detail pages also needed encoding, but then, all seemed well.
+
+One thing that came up after this was a flag needed for the ```createSingleWikiMediaPageUrl``` function which indicates to uppercase or not the parameter that is passed in for the API call.  So we added a third parameter to the call that if present and true will leave the page name alone.
+
 
 ## Removing preambles from Wikipedia
 
