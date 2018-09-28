@@ -26,9 +26,69 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 1. [Publishing a beta versions](#Publishing-a-beta-versions)
 1. [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
 1. [Errata](#errata)
-1. [WIP](#wip)
+1. [Problem with npm run commit](#problem-with-npm-run-commit)
+1. [Testing Wiki functions](#testing-Wiki-functions)
+
 
 #
+
+
+## WikiData subject pages
+
+This bit of work has to do with getting the WikiData subject page based on a label string.
+
+The SPARQL to do this looks like this:
+```
+SELECT ?item ?itemLabel
+WHERE {  
+  ?item ?label "Acquiescence bias"@en.  
+  ?article schema:about ?item .
+  ?article schema:inLanguage "en" .
+  ?article schema:isPartOf <https://en.wikipedia.org/>. 
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+} 
+```
+
+This returns:
+```
+item wd:Q420693
+itemLabel Acquiescence bias
+```
+
+I guess we don't need the label.  Once we have the Q-code, or 'item' as WikiData calls it, we can get the WikiData page and do things like list all the languages available for that page, and also provide correct re-direct links for those pages.  The Wikipedia pages don't always have the correct re-direct info, and so some of the items fail to find a re-direct from the various methods we have tried so far.
+
+Anyhow, the SPARQL query we can generate, for example with this input:
+
+
+Is this:
+```
+https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fitem%20%3FitemLabel%0A%20%20%20%20%20%20%20%20WHERE%20%7B%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fitem%20%3Flabel%20%22Acquiescence%20bias%22%40en.%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3Aabout%20%3Fitem%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AinLanguage%20%22en%22%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AisPartOf%20%3Chttps%3A%2F%2Fen.wikipedia.org%2F%3E.%20%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%20%20%20%20%20%20%20%20%7D%20
+```
+
+Make this call and you will hopefully get:
+```
+{
+  "head" : {
+    "vars" : [ "item", "itemLabel" ]
+  },
+  "results" : {
+    "bindings" : [ {
+      "item" : {
+        "type" : "uri",
+        "value" : "http://www.wikidata.org/entity/Q420693"
+      },
+      "itemLabel" : {
+        "xml:lang" : "en",
+        "type" : "literal",
+        "value" : "Acquiescence bias"
+      }
+    } ]
+  }
+}
+```
+
+The client can do it's own work to get the Q420693 item code/id.  I'm not sure if the label will be the same as the argument.  Possibly WikiData will do re-directs for us and so if you pass in one of the labels that redirects to the actual string used for the page url and we will all be very happy.
+
 
 ## Adding language settings
 
@@ -50,6 +110,9 @@ createSingleWikiMediaPageUrl(pageName, lang)
 The clients had a much rougher time.  So far, implementing a Korean version, there is only a list of 28 cognitive biases, with the WikiData list containing many pages that have no Korean version which needed to be weeded out.  The detail pages also needed encoding, but then, all seemed well.
 
 One thing that came up after this was a flag needed for the ```createSingleWikiMediaPageUrl``` function which indicates to uppercase or not the parameter that is passed in for the API call.  So we added a third parameter to the call that if present and true will leave the page name alone.
+
+Such a petty thing really.  The client can handle this situation.  I suppose making the client understand that flag is a way of dealing with business logic, but we should probably think of a better way to extract the business logic needed to use this library.  Something to think about.
+
 
 
 ## Removing preambles from Wikipedia
@@ -358,7 +421,7 @@ $ npm info art-curator
 ## Errata
 Apparently it's actually safe to git-ignore the dist folder as long as we either explicitly declare the files for npm in package.json's files property or by adding a .npmignore that is a copy of your .gitignore but without dist.
 
-## WIP
+## Problem with npm run commit
 
 ```
 $ npm run commit
@@ -430,10 +493,7 @@ npm ERR! code ELIFECYCLE
 npm ERR! errno 1
 npm ERR! fsevents@1.0.2 install: `node-pre-gyp install --fallback-to-build`
 npm ERR! Exit status 1
-npm ERR! 
-npm ERR! Failed at the fsevents@1.0.2 install script.
-npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-npm ERR! A complete log of this run can be found in:
+...
 npm ERR!     /Users/tim/.npm/_logs/2018-07-03T13_16_29_107Z-debug.log
 ```
 Any suggestions?  Start from scratch?

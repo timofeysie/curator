@@ -9,7 +9,8 @@ import * as wdk from 'wikidata-sdk';
 module.exports = {
     parseTitle: parseTitle,
     createElementFromHTML:createElementFromHTML,
-	createWikiDataUrl: createWikiDataUrl,
+    createWikiDataUrl: createWikiDataUrl,
+    createWikiDataItemUrl: createWikiDataItemUrl,
 	createWikiMediaUrl: createWikiMediaUrl,
 	parseWikiMediaResult: parseWikiMediaResult,
     createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
@@ -21,6 +22,21 @@ module.exports = {
   	getBio: getBio,
   	artistsReport: artistsReport
 };
+/**
+ * @returns SPARQL query url
+ */
+function createWikiDataItemUrl(itemLabel, language) {
+    const sparql = `
+        SELECT ?item ?itemLabel
+        WHERE {  
+            ?item ?label "${itemLabel}"@en.  
+            ?article schema:about ?item .
+            ?article schema:inLanguage "en" .
+            ?article schema:isPartOf <https://en.wikipedia.org/>. 
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "${language}". }
+        } `
+	return wdk.sparqlQuery(sparql);
+}
 /**
  * @returns data.results.bindings
  */

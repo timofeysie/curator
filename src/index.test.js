@@ -22,6 +22,20 @@ describe('curator', function() {
 		});
 	});
 
+	/* --- createWikiDataItemUrl --- */
+	describe('createWikiDataItemUrl', function () {
+		const dataUrl = curator.createWikiDataItemUrl('Acquiescence bias','en');
+		it('should return a string', function() {
+			expect(dataUrl).to.be.a('string');
+		});
+		it('should contain a sparql string', function() {
+			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fitem%20%3FitemLabel%0A%20%20%20%20%20%20%20%20WHERE%20%7B%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fitem%20%3Flabel%20%22Acquiescence%20bias%22%40en.%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3Aabout%20%3Fitem%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AinLanguage%20%22en%22%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AisPartOf%20%3Chttps%3A%2F%2Fen.wikipedia.org%2F%3E.%20%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%20%20%20%20%20%20%20%20%7D%20');
+		});
+		it('should contain the base url for a sparql API query', function() {
+			expect(dataUrl).to.contain('https://query.wikidata.org/sparql');
+		});
+	});
+
 	/* --- createWikiMediaUrl --- */
 	describe('createWikiMediaUrl', function () {
 		const dataUrl = curator.createWikiMediaUrl(1, 'en');
