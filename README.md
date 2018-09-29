@@ -523,3 +523,13 @@ I'm looking at Sinon now as a way to mock the response object and attach the con
 
 So we look at these three: ```['parse']['text']['*']``` which then contains the content we want.
 Maybe we will have to construct our own object that has a parse function and a _body parameter.
+
+An update on the tests.  After adding the createWikiDataItemUrl function including the passing tests for it, we have the following coverage report:
+```
+Statements   : 86.01% ( 123/143 ), 1 ignored
+Branches     : 73.68% ( 28/38 ), 4 ignored
+Functions    : 80% ( 12/15 )
+Lines        : 84.96% ( 113/133 )
+```
+
+Looking good TBC.  Feeling good Instanbul.
