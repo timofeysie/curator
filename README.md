@@ -419,7 +419,9 @@ $ npm info art-curator
 ```
 
 ## Errata
+
 Apparently it's actually safe to git-ignore the dist folder as long as we either explicitly declare the files for npm in package.json's files property or by adding a .npmignore that is a copy of your .gitignore but without dist.
+
 
 ## Problem with npm run commit
 
