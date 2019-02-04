@@ -16,7 +16,7 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 
 ## Table of contents
 
-1. [Adding language settings](#Adding language settings)
+1. [Adding language settings](#adding-language-settings)
 1. [Removing preambles from Wikipedia](#Removing-preambles-from-Wikipedia)
 1. [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
 1. [Installation](#Installation)
