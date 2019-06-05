@@ -7,20 +7,21 @@ var getRandomArtist = uniqueRandomArray(artists);
 import * as wdk from 'wikidata-sdk';
 
 module.exports = {
-    parseTitle: parseTitle,
-    createElementFromHTML:createElementFromHTML,
-    createWikiDataUrl: createWikiDataUrl,
-    createWikiDataItemUrl: createWikiDataItemUrl,
+  parseTitle: parseTitle,
+  createElementFromHTML:createElementFromHTML,
+  createWikiDataUrl: createWikiDataUrl,
+  createWikiDataCategoryUrl: createWikiDataCategoryUrl,
+  createWikiDataItemUrl: createWikiDataItemUrl,
 	createWikiMediaUrl: createWikiMediaUrl,
 	parseWikiMediaResult: parseWikiMediaResult,
-    createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
-    removeHtml: removeHtml,
-    removeWikiDataPreambles: removeWikiDataPreambles,
-  	getArtists: artists,
-  	getArtist: getArtist,
-  	searchArtists: searchArtists,
-  	getBio: getBio,
-  	artistsReport: artistsReport
+  createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
+  removeHtml: removeHtml,
+  removeWikiDataPreambles: removeWikiDataPreambles,
+	getArtists: artists,
+	getArtist: getArtist,
+	searchArtists: searchArtists,
+	getBio: getBio,
+	artistsReport: artistsReport
 };
 /**
  * @returns SPARQL query url
@@ -28,11 +29,11 @@ module.exports = {
 function createWikiDataItemUrl(itemLabel, language) {
     const sparql = `
         SELECT ?item ?itemLabel
-        WHERE {  
-            ?item ?label "${itemLabel}"@en.  
+        WHERE {
+            ?item ?label "${itemLabel}"@en.
             ?article schema:about ?item .
             ?article schema:inLanguage "en" .
-            ?article schema:isPartOf <https://en.wikipedia.org/>. 
+            ?article schema:isPartOf <https://en.wikipedia.org/>.
             SERVICE wikibase:label { bd:serviceParam wikibase:language "${language}". }
         } `
 	return wdk.sparqlQuery(sparql);
@@ -47,8 +48,8 @@ function createWikiDataUrl(lang) {
     }
     const sparql = `
         SELECT ?cognitive_bias ?cognitive_biasLabel ?cognitive_biasDescription WHERE {
-            SERVICE wikibase:label { 
-                bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${language}". 
+            SERVICE wikibase:label {
+                bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${language}".
             }
             ?cognitive_bias wdt:P31 wd:Q1127759.
         }
@@ -56,8 +57,27 @@ function createWikiDataUrl(lang) {
 	const url = wdk.sparqlQuery(sparql);
 	return url;
 }
+/**
+ * @returns data.results.bindings
+ */
+function createWikiDataCategoryUrl(lang, category, wdt, wd) {
+    let language = 'en';
+    if (lang) {
+        language = lang;
+    }
+    const sparql = `
+        SELECT ?${category} ?${category}Label ?${category}Description WHERE {
+            SERVICE wikibase:label {
+                bd:serviceParam wikibase:language "[AUTO_LANGUAGE],${language}".
+            }
+            ?${category} wdt:${wdt} wd:${wd}.
+        }
+		LIMIT 1000`
+	const url = wdk.sparqlQuery(sparql);
+	return url;
+}
 /** Create a url for a WikiMedia API call.
- * Currently set to return a list of cognitive bias. */ 
+ * Currently set to return a list of cognitive bias. */
 function createWikiMediaUrl(sectionNum, lang) {
     let language = 'en';
     if (lang) {
@@ -88,9 +108,9 @@ function parseWikiMediaResult(parseResult) {
 }
 /**
    * Create the API call for a single subject page on Wikipedia.
-   * @param pageName 
+   * @param pageName
    * @param lang
-   * @param doNotLowerCase 
+   * @param doNotLowerCase
    */
 function createSingleWikiMediaPageUrl(pageName, lang, doNotLowerCase) {
     let language = 'en';
@@ -111,7 +131,7 @@ function createSingleWikiMediaPageUrl(pageName, lang, doNotLowerCase) {
 }
 /**
  * Removes html and special characters from an html string.
- * @param {html string} content 
+ * @param {html string} content
  */
 function removeHtml(content) {
     const stripedHtml = content.replace(/<[^>]+>/g, '');
@@ -159,18 +179,18 @@ function removeWikiDataPreambles(content) {
 /**
    * Convert the result content to an html node for easy access to the content.
    * Change this to div.childNodes to support multiple top-level nodes
-   * @param htmlString 
+   * @param htmlString
    */
 function createElementFromHTML(htmlString) {
     var div = document.createElement('div');
     let page = '<div>'+htmlString+'</div>';
     div.innerHTML = page.trim();
-    return div; 
+    return div;
 }
 
   /**
    * Remove the [edit] portion of the title.
-   * @param HTMLDivElement 
+   * @param HTMLDivElement
    */
 function parseTitle(html) {
     let title =  html.getElementsByTagName('h2')[0].innerText;
