@@ -16,16 +16,20 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 
 ## Table of contents
 
+<<<<<<< HEAD
 1. [Parsing the Wikimedia list of result](#parsing-the-Wikimedia-list-of-result)
+=======
+1. [Workflow](#workflow)
+1. [Committing](#committing)
+1. [Publishing a beta versions](#Publishing-a-beta-versions)
+1. [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
+1. [WikiData subject pages](#wikiData-subject-pages)
+>>>>>>> 9fb5cc294c7f0818774a2af0d2922991124d0fa0
 1. [Adding language settings](#adding-language-settings)
 1. [Removing preambles from Wikipedia](#Removing-preambles-from-Wikipedia)
 1. [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
 1. [Installation](#Installation)
 1. [Usage](#Usage)
-1. [Workflows](#workflows)
-1. [Committing](#committing)
-1. [Publishing a beta versions](#Publishing-a-beta-versions)
-1. [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
 1. [Errata](#errata)
 1. [Problem with npm run commit](#problem-with-npm-run-commit)
 1. [Testing Wiki functions](#testing-Wiki-functions)
@@ -54,6 +58,7 @@ The createElementFromHTML() function will throw the following error if used in a
 
 ReferenceError: document is not defined
 
+<<<<<<< HEAD
 The document relates to the DOM in a web browser.
 
 Node.js, however, is not browser Javascript. It is a server, so you can't access the browser's DOM or do anything specific to browser-based Javascript.
@@ -64,6 +69,60 @@ The closest you could get is:
 2. Use JSDom to add Dom support to Node.
 3. Do the parsing in the client.
 4. Create a serverless/lambda function to parse the result in the cloud.
+=======
+## Workflow
+
+You can build and test with repl:
+```
+$ npm run build
+$ node
+> var curator = require('./dist/index.js');
+> curator.createWikiDataUrl()
+```
+
+
+## Committing
+Make sure that you have Node.js installed.
+This package uses commitizen to create it's sematic releases.  First add your changes then run the commit:
+```
+$ git add .
+$ npm run commit
+```
+Choose the type of changes that you did. Ex: chore
+Choose the scope of the change. Ex: releasing
+Add a description. Ex: Add travis config, conventional commit and semantic-release
+Add a longer description
+List break changes or issues closed by this change. Ex: closes #1
+To see if everything is ok:
+```
+$ git log
+```
+
+## Publishing a beta versions
+Bump the version with the sufix -beta.0. Ex: 1.3.1-beta.3.  As usual, commit the code, add a new tag, push to GitHub, push the tags, publish to NPM with –tag beta .
+```
+$ git add & git commit
+$ git tag 1.1.0
+$ git push
+$ git push --tags
+$ npm publish --tag beta
+```
+
+## Releasing a new version to NPM
+We use Semantic Versioning to bump the version correctly.  Commit the code, add a new tag, push to GitHub, push the tags and republish to NPM.
+```
+$ git add & git commit
+$ git tag 1.1.0
+$ git push
+$ git push --tags
+$ npm publish
+```
+To check the info on NPM:
+```
+$ npm info art-curator
+```
+
+>>>>>>> 9fb5cc294c7f0818774a2af0d2922991124d0fa0
 
 ## WikiData subject pages
 
@@ -76,9 +135,9 @@ WHERE {
   ?item ?label "Acquiescence bias"@en.  
   ?article schema:about ?item .
   ?article schema:inLanguage "en" .
-  ?article schema:isPartOf <https://en.wikipedia.org/>. 
+  ?article schema:isPartOf <https://en.wikipedia.org/>.
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-} 
+}
 ```
 
 This returns:
@@ -154,7 +213,7 @@ Example:
 This article may be in need of reorganization to comply with Wikipedia's layout guidelines. Please help by editing the article to make improvements to the overall structure. (August 2013) (Learn how and when to remove this template message)
 ```
 
-As a first step in the [React Native](https://github.com/timofeysie/teretifolia) app they were removed by hand in this fashion: 
+As a first step in the [React Native](https://github.com/timofeysie/teretifolia) app they were removed by hand in this fashion:
 ```
     const preamble = unescapedHtml.indexOf('This article is about');
     if (preamble !== -1) {
@@ -191,7 +250,7 @@ That would make even more reasons to use a library like jsdom.  Lets look at the
     <div role="note" class="hatnote navigation-not-searchable">
         <span class="plainlinks selfreference noprint">
             For <a href="/wiki/Systemic_bias" title="Systemic bias">
-            systemic bias</a> 
+            systemic bias</a>
             on Wikipedia and how to reduce it, see <a href="/wiki/Wikipedia:Systemic_bias" title="Wikipedia:Systemic bias">
             Wikipedia:Systemic bias</a>.
         </span>
@@ -213,7 +272,7 @@ That would make even more reasons to use a library like jsdom.  Lets look at the
                 <td class="mbox-text">
                     <div class="mbox-text-span">
                         This article includes a <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">
-                        list of references</a>, 
+                        list of references</a>,
                         but <b>its sources remain unclear</b> because it has <b>insufficient <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.<span class="hide-when-compact"> Please help to <a href="/wiki/Wikipedia:WikiProject_Fact_and_Reference_Check" title="Wikipedia:WikiProject Fact and Reference Check">improve</a> this article by <a href="/wiki/Wikipedia:When_to_cite" title="Wikipedia:When to cite">introducing</a> more precise citations.</span>  <small><i>(July 2008)</i></small><small class="hide-when-compact"><i> (<a href="/wiki/Help:Maintenance_template_removal" title="Help:Maintenance template removal">Learn how and when to remove this template message</a>)</i></small>
                     </div>
                 </td>
@@ -354,9 +413,9 @@ The functionality has been split up into these functions:
 
 
 ## Installation
-Install and save modules: 
+Install and save modules:
 ```
-$ npm i -S art-curator 
+$ npm i -S art-curator
 // This is equal to
 $ npm install --save art-curator
 ```
@@ -396,57 +455,6 @@ import * as curator from 'art-curator';
 ```
 
 
-## Workflow
-
-You can build and test with repl:
-```
-$ npm run build
-$ node
-> var curator = require('./dist/index.js');
-> curator.createWikiDataUrl()
-```
-
-
-## Committing
-Make sure that you have Node.js installed.
-This package uses commitizen to create it's sematic releases.  First add your changes then run the commit:
-```
-$ git add .
-$ npm run commit
-```
-Choose the type of changes that you did. Ex: chore
-Choose the scope of the change. Ex: releasing
-Add a description. Ex: Add travis config, conventional commit and semantic-release
-Add a longer description
-List break changes or issues closed by this change. Ex: closes #1
-To see if everything is ok:
-```
-$ git log
-```
-
-## Publishing a beta versions
-Bump the version with the sufix -beta.0. Ex: 1.3.1-beta.3.  As usual, commit the code, add a new tag, push to GitHub, push the tags, publish to NPM with –tag beta . 
-```
-$ git add & git commit
-$ git tag 1.1.0
-$ git push
-$ git push --tags 
-$ npm publish --tag beta
-```
-
-## Releasing a new version to NPM
-We use Semantic Versioning to bump the version correctly.  Commit the code, add a new tag, push to GitHub, push the tags and republish to NPM.
-```
-$ git add & git commit
-$ git tag 1.1.0
-$ git push
-$ git push --tags
-$ npm publish
-```
-To check the info on NPM:
-```
-$ npm info art-curator
-```
 
 ## Errata
 
@@ -495,7 +503,7 @@ Tried the recommended ```npm rebuild``` and things got worse:
   ^
 3 warnings and 4 errors generated.
 make: *** [Release/obj.target/fse/fsevents.o] Error 1
-gyp ERR! build error 
+gyp ERR! build error
 gyp ERR! stack Error: `make` failed with exit code: 2
 gyp ERR! stack     at ChildProcess.onExit (/Users/tim/.nvm/versions/node/v8.9.4/lib/node_modules/npm/node_modules/node-gyp/lib/build.js:258:23)
 gyp ERR! stack     at emitTwo (events.js:126:13)
@@ -506,8 +514,8 @@ gyp ERR! command "/Users/tim/.nvm/versions/node/v8.9.4/bin/node" "/Users/tim/.nv
 gyp ERR! cwd /Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents
 gyp ERR! node -v v8.9.4
 gyp ERR! node-gyp -v v3.6.2
-gyp ERR! not ok 
-node-pre-gyp ERR! build error 
+gyp ERR! not ok
+node-pre-gyp ERR! build error
 node-pre-gyp ERR! stack Error: Failed to execute '/Users/tim/.nvm/versions/node/v8.9.4/bin/node /Users/tim/.nvm/versions/node/v8.9.4/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js build --fallback-to-build --module=/Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents/lib/binding/Release/node-v57-darwin-x64/fse.node --module_name=fse --module_path=/Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents/lib/binding/Release/node-v57-darwin-x64' (1)
 node-pre-gyp ERR! stack     at ChildProcess.<anonymous> (/Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents/node_modules/node-pre-gyp/lib/util/compile.js:83:29)
 node-pre-gyp ERR! stack     at emitTwo (events.js:126:13)
@@ -519,7 +527,7 @@ node-pre-gyp ERR! command "/Users/tim/.nvm/versions/node/v8.9.4/bin/node" "/User
 node-pre-gyp ERR! cwd /Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents
 node-pre-gyp ERR! node -v v8.9.4
 node-pre-gyp ERR! node-pre-gyp -v v0.6.12
-node-pre-gyp ERR! not ok 
+node-pre-gyp ERR! not ok
 Failed to execute '/Users/tim/.nvm/versions/node/v8.9.4/bin/node /Users/tim/.nvm/versions/node/v8.9.4/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js build --fallback-to-build --module=/Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents/lib/binding/Release/node-v57-darwin-x64/fse.node --module_name=fse --module_path=/Users/tim/repos/loranthifolia-teretifolia-curator/curator/node_modules/babel/node_modules/chokidar/node_modules/fsevents/lib/binding/Release/node-v57-darwin-x64' (1)
 npm ERR! code ELIFECYCLE
 npm ERR! errno 1

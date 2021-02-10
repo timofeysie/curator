@@ -17,12 +17,27 @@ describe('curator', function() {
 			expect(dataUrl).to.be.a('string');
 		});
 		it('should contain a sparql string', function() {
-			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fcognitive_bias%20%3Fcognitive_biasLabel%20%3Fcognitive_biasDescription%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fcognitive_bias%20wdt%3AP31%20wd%3AQ1127759.%0A%20%20%20%20%20%20%20%20%7D%0A%09%09LIMIT%201000');
+			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fcognitive_bias%20%3Fcognitive_biasLabel%20%3Fcognitive_biasDescription%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fcognitive_bias%20wdt%3AP31%20wd%3AQ1127759.%0A%20%20%20%20%20%20%20%20%7D%0A%09%09LIMIT%201000');
 		});
 		it('should contain the base url for a sparql API query', function() {
 			expect(dataUrl).to.contain('https://query.wikidata.org/sparql');
 		});
 	});
+
+	/* --- createWikiDataUrl --- */
+	describe('createWikiDataCategoryUrl', function () {
+		const dataUrl = curator.createWikiDataCategoryUrl('en', 'fallacy', 'P31', 'Q186150');
+		it('should return a string', function() {
+			expect(dataUrl).to.be.a('string');
+		});
+		it('should contain a sparql string', function() {
+			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Ffallacy%20%3FfallacyLabel%20%3FfallacyDescription%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ffallacy%20wdt%3AP31%20wd%3AQ186150.%0A%20%20%20%20%20%20%20%20%7D%0A%09%09LIMIT%201000');
+		});
+		it('should contain the base url for a sparql API query', function() {
+			expect(dataUrl).to.contain('https://query.wikidata.org/sparql');
+		});
+	});
+
 
 	/* --- createWikiDataItemUrl --- */
 	describe('createWikiDataItemUrl', function () {
@@ -31,7 +46,7 @@ describe('curator', function() {
 			expect(dataUrl).to.be.a('string');
 		});
 		it('should contain a sparql string', function() {
-			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fitem%20%3FitemLabel%0A%20%20%20%20%20%20%20%20WHERE%20%7B%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fitem%20%3Flabel%20%22Acquiescence%20bias%22%40en.%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3Aabout%20%3Fitem%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AinLanguage%20%22en%22%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AisPartOf%20%3Chttps%3A%2F%2Fen.wikipedia.org%2F%3E.%20%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%20%20%20%20%20%20%20%20%7D%20');
+			expect(dataUrl).to.equal('https://query.wikidata.org/sparql?format=json&query=%0A%20%20%20%20%20%20%20%20SELECT%20%3Fitem%20%3FitemLabel%0A%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fitem%20%3Flabel%20%22Acquiescence%20bias%22%40en.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3Aabout%20%3Fitem%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AinLanguage%20%22en%22%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Farticle%20schema%3AisPartOf%20%3Chttps%3A%2F%2Fen.wikipedia.org%2F%3E.%0A%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%0A%20%20%20%20%20%20%20%20%7D%20');
 		});
 		it('should contain the base url for a sparql API query', function() {
 			expect(dataUrl).to.contain('https://query.wikidata.org/sparql');
@@ -57,7 +72,7 @@ describe('curator', function() {
 		<div role="note" class="hatnote navigation-not-searchable">
 		   <span class="plainlinks selfreference noprint">
 		   For <a href="/wiki/Systemic_bias" title="Systemic bias">
-		   systemic bias</a> 
+		   systemic bias</a>
 		   on Wikipedia and how to reduce it, see <a href="/wiki/Wikipedia:Systemic_bias" title="Wikipedia:Systemic bias">
 		   Wikipedia:Systemic bias</a>.
 		   </span>
@@ -79,7 +94,7 @@ describe('curator', function() {
 				 <td class="mbox-text">
 					<div class="mbox-text-span">
 					   This article includes a <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">
-					   list of references</a>, 
+					   list of references</a>,
 					   but <b>its sources remain unclear</b> because it has <b>insufficient <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.<span class="hide-when-compact"> Please help to <a href="/wiki/Wikipedia:WikiProject_Fact_and_Reference_Check" title="Wikipedia:WikiProject Fact and Reference Check">improve</a> this article by <a href="/wiki/Wikipedia:When_to_cite" title="Wikipedia:When to cite">introducing</a> more precise citations.</span>  <small><i>(July 2008)</i></small><small class="hide-when-compact"><i> (<a href="/wiki/Help:Maintenance_template_removal" title="Help:Maintenance template removal">Learn how and when to remove this template message</a>)</i></small>
 					</div>
 				 </td>
