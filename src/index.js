@@ -11,8 +11,10 @@ module.exports = {
     createElementFromHTML:createElementFromHTML,
     createWikiDataUrl: createWikiDataUrl,
     createWikiDataItemUrl: createWikiDataItemUrl,
-	createWikiMediaUrl: createWikiMediaUrl,
-	parseWikiMediaResult: parseWikiMediaResult,
+    createWikiMediaUrl: createWikiMediaUrl,
+    createWikiMediaUrlWithName: createWikiMediaUrlWithName,
+    parseWikiMediaResult: parseWikiMediaResult,
+    parseWikiMediaListResult: parseWikiMediaListResult,
     createSingleWikiMediaPageUrl: createSingleWikiMediaPageUrl,
     removeHtml: removeHtml,
     removeWikiDataPreambles: removeWikiDataPreambles,
@@ -56,7 +58,7 @@ function createWikiDataUrl(lang) {
 	const url = wdk.sparqlQuery(sparql);
 	return url;
 }
-/** Create a url for a WikiMedia API call.
+/** @deprecated Create a url for a WikiMedia API call.
  * Currently set to return a list of cognitive bias. */ 
 function createWikiMediaUrl(sectionNum, lang) {
     let language = 'en';
@@ -71,8 +73,58 @@ function createWikiMediaUrl(sectionNum, lang) {
     let sectionUrl = baseUrl+'?'+action+'&'+section+'&'+prop+'&'+page;
 	return sectionUrl;
 }
+
+/** Create a url for a WikiMedia API call.
+ * @param name The 'list of'+name should be sneaky snake case label that
+ * will be added to "List_of_" like this string:
+ * List_of_cognitive_biases or List_of_fallacies.
+ * @param sectionNum This will determine the section of the list page.
+ * @param lang The language you like. */
+function createWikiMediaUrlWithName(name, sectionNum, lang) {
+    let language = 'en';
+    let listOf = 'List_of_';
+    if (lang) {
+        language = lang;
+    }
+    let action = 'action=parse';
+    let section = 'section='+sectionNum;
+    let prop = 'prop=text&format=json';
+    let page = 'page='+listOf+name;
+    const baseUrl = 'http://'+language+'.wikipedia.org/w/api.php';
+    let sectionUrl = baseUrl+'?'+action+'&'+section+'&'+prop+'&'+page;
+    return sectionUrl;
+}
 /** Parse the result of a WikiMedia API call to return a text version of
  * multiple rows of name and definition pairs.
+ * http://en.wikipedia.org/w/api.php?action=parse&section=1&prop=text&format=json&page=List_of_fallacies
+ * This will only work in a browser setting where the document object exists.
+ */
+function parseWikiMediaListResult(result) {
+    if (result) {
+        const content = result;
+        let one = this.createElementFromHTML(content);
+        let title = this.parseTitle(one);
+
+        // find h2 tab with <span class="mw-headline" id="Formal_fallacies">Formal fallacies</span>
+        // the following <p> element has the description of the section
+        // get following <ul>
+        // get the <li> tags which have can be stripped of their html to create the
+        // definition, the href link and the title as label:
+        // <a href="/wiki/Appeal_to_probability" title="Appeal to probability"> with the label
+        // Appeal to probability</a>u2013 a statement that takes something for granted  ...
+        // There are also citations and possibly other meaningful elements, but for the MVP,
+        // we will leave those for later.
+  return title;
+    } else {
+        console.log('result', result['parse']);
+        return 'none';
+    }
+}
+
+/** Parse the result of a WikiMedia API call to return a text version of
+ * multiple rows of name and definition pairs.
+ * This can only be used where document is defined.
+ * There is no unit test for this function due to this.
  */
 function parseWikiMediaResult(parseResult) {
     const content = parseResult['parse']['text']['*'];
@@ -88,6 +140,7 @@ function parseWikiMediaResult(parseResult) {
 }
 /**
    * Create the API call for a single subject page on Wikipedia.
+   * Currently will only work where a browser document object is defined. 
    * @param pageName 
    * @param lang
    * @param doNotLowerCase 
@@ -162,10 +215,12 @@ function removeWikiDataPreambles(content) {
    * @param htmlString 
    */
 function createElementFromHTML(htmlString) {
-    var div = document.createElement('div');
-    let page = '<div>'+htmlString+'</div>';
-    div.innerHTML = page.trim();
-    return div; 
+    if (document) {
+        var div = document.createElement('div');
+        let page = '<div>'+htmlString+'</div>';
+        div.innerHTML = page.trim();
+        return div; 
+    }
 }
 
   /**

@@ -1,5 +1,7 @@
 import {expect} from 'chai';
 import curator from'./index.js';
+const fs = require('fs');
+const fallacies = require('./data/fallacies-list.json');
 import { sinon, spy, stub } from 'sinon';
 
 // ES5 versions
@@ -111,7 +113,15 @@ describe('curator', function() {
 			expect(newContent).to.not.contain('For Wikipedia\'s editorial policy on avoiding bias, see');
 		});
 		//console.log('newContent',newContent);
-	});
+    });
+    
+    /* --- parseWikiMediaListResult --*/
+	// describe('parseWikiMediaListResult', function () {
+    //     const list = curator.parseWikiMediaListResult(fallacies);
+	// 	it('list should contain 10 item', function () {
+	// 		expect(list).to.exist;
+	// 	});       
+    // });
 
 	/* --- createSingleWikiMediaPageUrl --- */
 	describe('createSingleWikiMediaPageUrl', function () {

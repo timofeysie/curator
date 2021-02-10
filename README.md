@@ -16,7 +16,8 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 
 ## Table of contents
 
-1. [Adding language settings](#Adding language settings)
+1. [Parsing the Wikimedia list of result](#parsing-the-Wikimedia-list-of-result)
+1. [Adding language settings](#adding-language-settings)
 1. [Removing preambles from Wikipedia](#Removing-preambles-from-Wikipedia)
 1. [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
 1. [Installation](#Installation)
@@ -30,8 +31,39 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 1. [Testing Wiki functions](#testing-Wiki-functions)
 
 
-#
+## Parsing the Wikimedia list of result
 
+After creating the createWikiMediaUrlWithName() function to accept the name of a "list of x" type url to access a Wikimedia page, we also wanted to create a parsing function which creates the name-description list from the result.
+
+However, the two functions parseWikiMedia() and parseWikiMediaListResult() require the browser document object to exists.  Since development and testing of this lib is done in a node environment, testing these functions is a work in progress.
+
+Then I recall using Cheerio in the lib when the client projects both experienced problems.  After that, this is the function from Conchifolia that parses the contents of a Wikimedia result:
+
+```ts
+  parseSectionList(data: any) {
+    if (data['parse']) {
+      const content = data['parse']['text']['*'];
+      let one = this.createElementFromHTML(content);
+      const desc:any = one.getElementsByClassName('mw-parser-output')[0].children;
+      let descriptions: any [] = [];
+      let category = desc[0].getElementsByClassName('mw-headline')[0].innerText;
+      const allDesc = desc[2];
+```
+
+The createElementFromHTML() function will throw the following error if used in a pure Node context:
+
+ReferenceError: document is not defined
+
+The document relates to the DOM in a web browser.
+
+Node.js, however, is not browser Javascript. It is a server, so you can't access the browser's DOM or do anything specific to browser-based Javascript.
+
+The closest you could get is:
+
+1. Use something like browserify to include Node.js modules in your client-side code.
+2. Use JSDom to add Dom support to Node.
+3. Do the parsing in the client.
+4. Create a serverless/lambda function to parse the result in the cloud.
 
 ## WikiData subject pages
 
@@ -112,8 +144,6 @@ The clients had a much rougher time.  So far, implementing a Korean version, the
 One thing that came up after this was a flag needed for the ```createSingleWikiMediaPageUrl``` function which indicates to uppercase or not the parameter that is passed in for the API call.  So we added a third parameter to the call that if present and true will leave the page name alone.
 
 Such a petty thing really.  The client can handle this situation.  I suppose making the client understand that flag is a way of dealing with business logic, but we should probably think of a better way to extract the business logic needed to use this library.  Something to think about.
-
-
 
 ## Removing preambles from Wikipedia
 
@@ -240,7 +270,7 @@ Error: Cannot find module 'internal/util/types'
 
 Going with normal git commits for now.
 
-And it turns out that this was not the only bad news.  After including Cheerio in the lib, both projects experienced problems that were difficult to diganose and fix.  The answer to [this StackOverflow](https://stackoverflow.com/questions/51273179/implementing-a-package-returns-module-util-does-not-exist-in-the-haste-module-m) question puts the problem well:
+And it turns out that this was not the only bad news.  After including Cheerio in the lib, both projects experienced problems that were difficult to diagnose and fix.  The answer to [this StackOverflow](https://stackoverflow.com/questions/51273179/implementing-a-package-returns-module-util-does-not-exist-in-the-haste-module-m) question puts the problem well:
 *feedparser is designed to run in node.js not react native. You may be able to make it work regardless by installing the util package from npm.*
 
 The answer says that installing the missing packages may work.  MAY.  And this could be a potential problem for other lib users.  So the decision has been made to remove Cheerio and follow the advice from 2013 regarding using regex to do the parsing.
