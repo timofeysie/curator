@@ -16,15 +16,12 @@ The prebuild, build and postbuild scripts in the package.json compile the src di
 
 ## Table of contents
 
-<<<<<<< HEAD
 1. [Parsing the Wikimedia list of result](#parsing-the-Wikimedia-list-of-result)
-=======
 1. [Workflow](#workflow)
 1. [Committing](#committing)
 1. [Publishing a beta versions](#Publishing-a-beta-versions)
 1. [Releasing a new version to NP](#Releasing-a-new-version-to-NPM)
 1. [WikiData subject pages](#wikiData-subject-pages)
->>>>>>> 9fb5cc294c7f0818774a2af0d2922991124d0fa0
 1. [Adding language settings](#adding-language-settings)
 1. [Removing preambles from Wikipedia](#Removing-preambles-from-Wikipedia)
 1. [WikiData and WikiMedia functions](#WikiData-and-WikiMedia-functions)
@@ -58,7 +55,6 @@ The createElementFromHTML() function will throw the following error if used in a
 
 ReferenceError: document is not defined
 
-<<<<<<< HEAD
 The document relates to the DOM in a web browser.
 
 Node.js, however, is not browser Javascript. It is a server, so you can't access the browser's DOM or do anything specific to browser-based Javascript.
@@ -69,7 +65,6 @@ The closest you could get is:
 2. Use JSDom to add Dom support to Node.
 3. Do the parsing in the client.
 4. Create a serverless/lambda function to parse the result in the cloud.
-=======
 ## Workflow
 
 You can build and test with repl:
@@ -122,7 +117,6 @@ To check the info on NPM:
 $ npm info art-curator
 ```
 
->>>>>>> 9fb5cc294c7f0818774a2af0d2922991124d0fa0
 
 ## WikiData subject pages
 
